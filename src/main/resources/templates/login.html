@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="../css/login.css"/>
+    <script type="application/javascript" src="../js/jquery.js"></script>
+    <script type="application/javascript" src="../js/pages/login.js"></script>
+</head>
+<body>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?59b2c2ff82b8eed7be495196114a53da";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<input type="hidden" id="returnUrl" th:value="${returnUrl}"></input>
+<div class="main">
+    <div class="cen">
+        <div class="logo">
+            <img src="../img/logo.png"/>
+            <span class="name">金仕林纸业</span>
+        </div>
+        <form method="post" id="login_form">
+            <label>
+                <i class="login_form_icon"></i>
+                <input class="name" name="account" type="text" placeholder="请输入账号"/>
+            </label>
+            <label style="margin-top: 20px;">
+                <i class="pass_form_icon"></i>
+                <input class="name" type="password" name="pwd" placeholder="请输入密码"/>
+            </label>
+            <div class="login-button">
+                <input class="formsubmit_btn" id="login" type="submit" value="登&nbsp;&nbsp;录"/>
+            </div>
+        </form>
+        <div class="errMsg hide" id="errMsg">
+            <i class="warntip_icon"></i>
+            <span id="content">用户名或密码错误，请重试！</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

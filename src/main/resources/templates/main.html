@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="../css/main.css" />
+<script type="application/javascript" src="../js/jquery.js"></script>
+<script type="application/javascript" src="../js/pages/main/main.validator.js"></script>
+    <div th:replace="~{base/js-bar :: js-bar}"></div>
+    <script th:src="@{/plugins/bootstrap-validator/dist/js/bootstrapValidator.js}"></script>
+
+    <script type="application/javascript" src="../js/pages/main/main.js"></script>
+
+</head>
+<body>
+<div style="height:100%;">
+    <div class="head">
+        <div class="head-left">
+            <span>金仕林纸业</span>
+        </div>
+        <div class="right" >
+            <div onclick="resetPwd()" class="resetPwd" onmouseover="switchOver(this)" onmouseout="switchOut(this) ">修改密码</div>
+            <span th:text="${user.account}"></span>
+            <div class="logout" onmouseover="switchOver(this)" onmouseout="switchOut(this) " onclick="logOut()">
+               <img class="icon" src="../img/resign.png"/>退出登录
+            </div>
+        </div>
+    </div>
+    <div class="contentman">
+        <div class="left">
+            <a href="/record/index" target="myIframe" onclick="foucs(this)"><div class="item foucs">记录管理</div></a>
+            <a href="/record/sum" target="myIframe" onclick="foucs(this)"  th:if="${admin}"><div class="item ">汇总管理</div></a>
+            <a href="/recordChart/index" target="myIframe" onclick="foucs(this)"  th:if="${admin}"><div class="item ">汇总图表</div></a>
+            <a href="/user/index" target="myIframe" onclick="foucs(this)"  th:if="${admin}"><div class="item ">用户管理</div></a>
+        </div>
+        <div class="content-right">
+            <iframe src="/record/index" style="padding:0 10px" name="myIframe"></iframe>
+        </div>
+    </div>
+
+</div>
+
+<!--修改密码窗口-->
+<div class="modal modal-primary" tabindex="-1" role="dialog" id="add-approval-control-dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="add-approval-control-tab" class="nav nav-tabs marginBottom" style="border-bottom: 0">
+                    <li class="active" id="add-home-tab">
+                        <!--<a href="#add-home" data-toggle="tab">-->
+
+                        <!--</a>-->
+                    </li>
+                </ul>
+                <div id="add-approval-control-tab-content" class="tab-content">
+                    <div class="tab-pane fade in active" id="add-home">
+                        <form id="add-approval-control-form" class="form-horizontal" role="form">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"
+                                           for="addaccount"><span
+                                            style="color: red;font-size: 12px">*必填*</span>原密码:</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="addaccount" name="oldPwd"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"
+                                           for="addInfoCode"> <span
+                                            style="color: red;font-size: 12px">*必填*</span>新密码:</label>
+                                    <div class="col-sm-8">
+
+                                        <input type="text" class="form-control" id="addInfoCode" name="newPwd"/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" id="add-approval-control-exe-btton" onclick="confirmResetPwd()">
+                        确认
+                    </button>
+                    <button type="button" class="btn btn-outline" data-dismiss="modal"
+                            id="add-approval-control-close-button">关闭
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+
+</script>
+</body>
+</html>

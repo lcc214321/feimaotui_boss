@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.egg.mapper.RecommendDAO">
+    <resultMap id="BaseResultMap" type="org.egg.model.DO.Recommend">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_no" jdbcType="VARCHAR" property="userNo"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="recommend_user_name" jdbcType="VARCHAR" property="recommendUserName"/>
+        <result column="recommend_user_no" jdbcType="VARCHAR" property="recommendUserNo"/>
+        <result column="recommend_type" jdbcType="INTEGER" property="recommendType"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+        <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="WhereQueryEntity">
+        <if test="userNo != null">
+            AND user_no = #{userNo,jdbcType=VARCHAR}
+        </if>
+        <if test="userName != null">
+            AND user_name = #{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="recommendUserName != null">
+            AND recommend_user_name = #{recommendUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="recommendUserNo != null">
+            AND recommend_user_no = #{recommendUserNo,jdbcType=VARCHAR}
+        </if>
+        <if test="recommendType != null">
+            AND recommend_type = #{recommendType,jdbcType=INTEGER}
+        </if>
+        <if test="createdDate != null">
+            AND created_date = #{createdDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modifiedDate != null">
+            AND modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="remark != null">
+            AND remark = #{remark,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <sql id="Base_Column_List">
+    id, user_no, user_name, recommend_user_name, recommend_user_no,recommend_type, created_date, modified_date,
+    remark
+  </sql>
+    <sql id="limitPage">
+        <if test="first != null">
+            limit #{first,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+        </if>
+    </sql>
+    <select id="queryList" parameterType="org.egg.model.VO.RecommendQueryReq" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from recommend WHERE 1=1
+        <include refid="WhereQueryEntity"/>
+        order by id desc
+        <include refid="limitPage"/>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from recommend
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from recommend
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="org.egg.model.DO.Recommend">
+    insert into recommend (id, user_no, user_name,
+    recommend_user_name, recommend_user_no,recommend_type, created_date,
+    modified_date, remark)
+    values (#{id,jdbcType=BIGINT}, #{userNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+    #{recommendUserName,jdbcType=VARCHAR}, #{recommendUserNo,jdbcType=VARCHAR}, #{recommendType,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP},
+    #{modifiedDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="org.egg.model.DO.Recommend">
+        insert into recommend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userNo != null">
+                user_no,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="recommendUserName != null">
+                recommend_user_name,
+            </if>
+            <if test="recommendUserNo != null">
+                recommend_user_no,
+            </if>
+            <if test="recommendType != null">
+                recommend_type,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="modifiedDate != null">
+                modified_date,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userNo != null">
+                #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendUserName != null">
+                #{recommendUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendUserNo != null">
+                #{recommendUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendType != null">
+                #{recommendType,jdbcType=INTEGER},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifiedDate != null">
+                #{modifiedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into recommend (id, user_no, user_name,
+        recommend_user_name, recommend_user_no,recommend_type,
+        created_date, modified_date,
+        remark)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.userNo,jdbcType=VARCHAR}, #{item.userName,jdbcType=VARCHAR},
+            #{item.recommendUserName,jdbcType=VARCHAR}, #{item.recommendUserNo,jdbcType=VARCHAR},
+            #{item.recommendType,jdbcType=INTEGER},
+            #{item.createdDate,jdbcType=TIMESTAMP}, #{item.modifiedDate,jdbcType=TIMESTAMP},
+            #{item.remark,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <insert id="insertBatchSelective" parameterType="java.util.List">
+        insert into recommend
+        (id, user_no, user_name, recommend_user_name, recommend_user_no,recommend_type, created_date, modified_date,
+        remark)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    #{item.id,jdbcType=BIGINT},
+                </if>
+                <if test="item.id == null">
+                    NULL,
+                </if>
+                <if test="item.userNo != null">
+                    #{item.userNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.userNo == null">
+                    NULL,
+                </if>
+                <if test="item.userName != null">
+                    #{item.userName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.userName == null">
+                    NULL,
+                </if>
+                <if test="item.recommendUserName != null">
+                    #{item.recommendUserName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.recommendUserName == null">
+                    NULL,
+                </if>
+                <if test="item.recommendUserNo != null">
+                    #{item.recommendUserNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.recommendUserNo == null">
+                    NULL,
+                </if>
+                <if test="item.recommendType != null">
+                    #{item.recommendType,jdbcType=INTEGER},
+                </if>
+                <if test="item.recommendType == null">
+                    NULL,
+                </if>
+                <if test="item.createdDate != null">
+                    #{item.createdDate,jdbcType=TIMESTAMP},
+                </if>
+                <if test="item.createdDate == null">
+                    NULL,
+                </if>
+                <if test="item.modifiedDate != null">
+                    #{item.modifiedDate,jdbcType=TIMESTAMP},
+                </if>
+                <if test="item.modifiedDate == null">
+                    NULL,
+                </if>
+                <if test="item.remark != null">
+                    #{item.remark,jdbcType=VARCHAR},
+                </if>
+                <if test="item.remark == null">
+                    NULL,
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <select id="queryCount" parameterType="org.egg.model.VO.RecommendQueryReq" resultType="java.lang.Integer">
+        select count(*) from recommend WHERE 1=1
+        <include refid="WhereQueryEntity"/>
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="org.egg.model.DO.Recommend">
+        update recommend
+        <set>
+            <if test="userNo != null">
+                user_no = #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendUserName != null">
+                recommend_user_name = #{recommendUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendUserNo != null">
+                recommend_user_no = #{recommendUserNo,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendType != null">
+                recommend_type = #{recommendType,jdbcType=INTEGER},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <!--<if test="modifiedDate != null">-->
+            <!--modified_date = #{modifiedDate,jdbcType=TIMESTAMP},-->
+            <!--</if>-->
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.egg.model.DO.Recommend">
+    update recommend
+    set user_no = #{userNo,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      recommend_user_name = #{recommendUserName,jdbcType=VARCHAR},
+      recommend_user_no = #{recommendUserNo,jdbcType=VARCHAR},
+      recommend_type = #{recommendType,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

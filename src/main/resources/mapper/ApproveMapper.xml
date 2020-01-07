@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.egg.mapper.ApproveDAO">
+  <resultMap id="BaseResultMap" type="org.egg.model.DO.Approve">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="stu_no" jdbcType="VARCHAR" property="stuNo" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="tel_no" jdbcType="VARCHAR" property="telNo" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="real_id_no" jdbcType="VARCHAR" property="realIdNo" />
+    <result column="stu_sch_name" jdbcType="VARCHAR" property="stuSchName" />
+    <result column="stu_address_l" jdbcType="VARCHAR" property="stuAddressL" />
+    <result column="stu_address_q" jdbcType="VARCHAR" property="stuAddressQ" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_no, stu_no, gender, tel_no, real_name, real_id_no, stu_sch_name, stu_address_l, 
+    stu_address_q, status, remark, created_date, modified_date
+  </sql>
+  <select id="selectByExample" parameterType="org.egg.model.DO.ApproveExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from approve
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from approve
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from approve
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.egg.model.DO.ApproveExample">
+    delete from approve
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.egg.model.DO.Approve">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into approve (user_no, stu_no, gender, 
+      tel_no, real_name, real_id_no, 
+      stu_sch_name, stu_address_l, stu_address_q, 
+      status, remark, created_date, 
+      modified_date)
+    values (#{userNo,jdbcType=VARCHAR}, #{stuNo,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{telNo,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{realIdNo,jdbcType=VARCHAR}, 
+      #{stuSchName,jdbcType=VARCHAR}, #{stuAddressL,jdbcType=VARCHAR}, #{stuAddressQ,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{modifiedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.egg.model.DO.Approve">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into approve
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="stuNo != null">
+        stu_no,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="telNo != null">
+        tel_no,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="realIdNo != null">
+        real_id_no,
+      </if>
+      <if test="stuSchName != null">
+        stu_sch_name,
+      </if>
+      <if test="stuAddressL != null">
+        stu_address_l,
+      </if>
+      <if test="stuAddressQ != null">
+        stu_address_q,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stuNo != null">
+        #{stuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="telNo != null">
+        #{telNo,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="realIdNo != null">
+        #{realIdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSchName != null">
+        #{stuSchName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuAddressL != null">
+        #{stuAddressL,jdbcType=VARCHAR},
+      </if>
+      <if test="stuAddressQ != null">
+        #{stuAddressQ,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.egg.model.DO.ApproveExample" resultType="java.lang.Integer">
+    select count(*) from approve
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update approve
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userNo != null">
+        user_no = #{record.userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuNo != null">
+        stu_no = #{record.stuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telNo != null">
+        tel_no = #{record.telNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realName != null">
+        real_name = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realIdNo != null">
+        real_id_no = #{record.realIdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuSchName != null">
+        stu_sch_name = #{record.stuSchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuAddressL != null">
+        stu_address_l = #{record.stuAddressL,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuAddressQ != null">
+        stu_address_q = #{record.stuAddressQ,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedDate != null">
+        modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update approve
+    set id = #{record.id,jdbcType=BIGINT},
+      user_no = #{record.userNo,jdbcType=VARCHAR},
+      stu_no = #{record.stuNo,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=VARCHAR},
+      tel_no = #{record.telNo,jdbcType=VARCHAR},
+      real_name = #{record.realName,jdbcType=VARCHAR},
+      real_id_no = #{record.realIdNo,jdbcType=VARCHAR},
+      stu_sch_name = #{record.stuSchName,jdbcType=VARCHAR},
+      stu_address_l = #{record.stuAddressL,jdbcType=VARCHAR},
+      stu_address_q = #{record.stuAddressQ,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.egg.model.DO.Approve">
+    update approve
+    <set>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stuNo != null">
+        stu_no = #{stuNo,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="telNo != null">
+        tel_no = #{telNo,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="realIdNo != null">
+        real_id_no = #{realIdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSchName != null">
+        stu_sch_name = #{stuSchName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuAddressL != null">
+        stu_address_l = #{stuAddressL,jdbcType=VARCHAR},
+      </if>
+      <if test="stuAddressQ != null">
+        stu_address_q = #{stuAddressQ,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        modified_date = #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.egg.model.DO.Approve">
+    update approve
+    set user_no = #{userNo,jdbcType=VARCHAR},
+      stu_no = #{stuNo,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      tel_no = #{telNo,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      real_id_no = #{realIdNo,jdbcType=VARCHAR},
+      stu_sch_name = #{stuSchName,jdbcType=VARCHAR},
+      stu_address_l = #{stuAddressL,jdbcType=VARCHAR},
+      stu_address_q = #{stuAddressQ,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

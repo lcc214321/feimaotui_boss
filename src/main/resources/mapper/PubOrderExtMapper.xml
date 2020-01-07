@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.egg.mapper.PubOrderEtxDAO">
+
+  <resultMap id="BaseResultMap" type="org.egg.model.DO.PubOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="weigth" jdbcType="VARCHAR" property="weigth" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="kd_type" jdbcType="VARCHAR" property="kdType" />
+    <result column="address_get" jdbcType="VARCHAR" property="addressGet" />
+    <result column="sco_no" jdbcType="VARCHAR" property="scoNo" />
+    <result column="address_services" jdbcType="VARCHAR" property="addressServices" />
+    <result column="time_delay" jdbcType="TIMESTAMP" property="timeDelay" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="cancel_reason" jdbcType="VARCHAR" property="cancelReason" />
+    <result column="wuliu_no" jdbcType="VARCHAR" property="wuliuNo" />
+    <result column="wuliu_json" jdbcType="VARCHAR" property="wuliuJson" />
+  </resultMap>
+  <select id="queryList4Accept" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT t1.* ,t2.user_no accUserNo,t2.amount accAmount,t2.status accStatus,t2.created_date accCreatedDate,
+    t2.finished_date finishedDate
+    FROM  pub_order t1,accept_order t2
+    where t2.pub_order_no=t1.order_no
+    and t2.user_no=#{userNo,jdbcType=VARCHAR}
+    and t2.status=#{status,jdbcType=VARCHAR}
+    order by t2.created_date desc
+    <if test="start!=null">
+      limit #{start},#{end}
+    </if>
+  </select>
+</mapper>

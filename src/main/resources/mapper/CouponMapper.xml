@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.egg.mapper.CouponDAO">
+  <resultMap id="BaseResultMap" type="org.egg.model.DO.Coupon">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="coupon_type" jdbcType="VARCHAR" property="couponType" />
+    <result column="threshold_value" jdbcType="DECIMAL" property="thresholdValue" />
+    <result column="value" jdbcType="DECIMAL" property="value" />
+    <result column="max_value" jdbcType="VARCHAR" property="maxValue" />
+    <result column="gift_flag" jdbcType="VARCHAR" property="giftFlag" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, coupon_type, threshold_value, value, max_value, gift_flag, created_date, modified_date
+  </sql>
+  <select id="selectByExample" parameterType="org.egg.model.DO.CouponExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from coupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="org.egg.model.DO.CouponExample">
+    delete from coupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.egg.model.DO.Coupon">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into coupon (coupon_type, threshold_value, value, 
+      max_value, gift_flag, created_date, 
+      modified_date)
+    values (#{couponType,jdbcType=VARCHAR}, #{thresholdValue,jdbcType=DECIMAL}, #{value,jdbcType=DECIMAL}, 
+      #{maxValue,jdbcType=VARCHAR}, #{giftFlag,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{modifiedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.egg.model.DO.Coupon">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="couponType != null">
+        coupon_type,
+      </if>
+      <if test="thresholdValue != null">
+        threshold_value,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="maxValue != null">
+        max_value,
+      </if>
+      <if test="giftFlag != null">
+        gift_flag,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="couponType != null">
+        #{couponType,jdbcType=VARCHAR},
+      </if>
+      <if test="thresholdValue != null">
+        #{thresholdValue,jdbcType=DECIMAL},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=DECIMAL},
+      </if>
+      <if test="maxValue != null">
+        #{maxValue,jdbcType=VARCHAR},
+      </if>
+      <if test="giftFlag != null">
+        #{giftFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.egg.model.DO.CouponExample" resultType="java.lang.Integer">
+    select count(*) from coupon
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update coupon
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.couponType != null">
+        coupon_type = #{record.couponType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thresholdValue != null">
+        threshold_value = #{record.thresholdValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.value != null">
+        value = #{record.value,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxValue != null">
+        max_value = #{record.maxValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.giftFlag != null">
+        gift_flag = #{record.giftFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedDate != null">
+        modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update coupon
+    set id = #{record.id,jdbcType=BIGINT},
+      coupon_type = #{record.couponType,jdbcType=VARCHAR},
+      threshold_value = #{record.thresholdValue,jdbcType=DECIMAL},
+      value = #{record.value,jdbcType=DECIMAL},
+      max_value = #{record.maxValue,jdbcType=VARCHAR},
+      gift_flag = #{record.giftFlag,jdbcType=VARCHAR},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

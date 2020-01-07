@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.egg.mapper.CreditScoreFlowDAO">
+  <resultMap id="BaseResultMap" type="org.egg.model.DO.CreditScoreFlow">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="record_no" jdbcType="VARCHAR" property="recordNo" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="oper_type" jdbcType="TINYINT" property="operType" />
+    <result column="record_type" jdbcType="VARCHAR" property="recordType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+  </resultMap>
+  <sql id="WhereQueryEntity">
+    <if test="recordNo != null">
+      AND record_no = #{recordNo,jdbcType=VARCHAR}
+    </if>
+    <if test="userNo != null">
+      AND user_no = #{userNo,jdbcType=VARCHAR}
+    </if>
+    <if test="score != null">
+      AND score = #{score,jdbcType=INTEGER}
+    </if>
+    <if test="operType != null">
+      AND oper_type = #{operType,jdbcType=TINYINT}
+    </if>
+    <if test="recordType != null">
+      AND record_type = #{recordType,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null">
+      AND remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="createdDate != null">
+      AND created_date = #{createdDate,jdbcType=TIMESTAMP}
+    </if>
+  </sql>
+  <sql id="Base_Column_List">
+    id, record_no, user_no, score, oper_type,record_type, remark, created_date
+  </sql>
+  <sql id="limitPage">
+    <if test="first != null">
+      limit #{first,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+    </if>
+  </sql>
+  <select id="queryList" parameterType="org.egg.model.VO.CreditScoreFlowQueryReq" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from credit_score_flow WHERE 1=1
+    <include refid="WhereQueryEntity" />
+    order by id desc
+    <include refid="limitPage"/>
+
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from credit_score_flow
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from credit_score_flow
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id"  parameterType="org.egg.model.DO.CreditScoreFlow">
+    insert into credit_score_flow (id, record_no, user_no,
+    score, oper_type,record_type, remark,
+    created_date)
+    values (#{id,jdbcType=BIGINT}, #{recordNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR},
+    #{score,jdbcType=INTEGER}, #{operType,jdbcType=TINYINT}, #{recordType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{createdDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="org.egg.model.DO.CreditScoreFlow">
+    insert into credit_score_flow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="recordNo != null">
+        record_no,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="operType != null">
+        oper_type,
+      </if>
+      <if test="recordType != null">
+        record_type,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="recordNo != null">
+        #{recordNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="operType != null">
+        #{operType,jdbcType=TINYINT},
+      </if>
+      <if test="recordType != null">
+        #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into credit_score_flow (id, record_no, user_no,
+    score, oper_type, record_type,remark,
+    created_date)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.recordNo,jdbcType=VARCHAR}, #{item.userNo,jdbcType=VARCHAR},
+      #{item.score,jdbcType=INTEGER}, #{item.operType,jdbcType=TINYINT}, #{item.recordType,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR},
+      #{item.createdDate,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+    insert into credit_score_flow
+    (id, record_no, user_no, score, oper_type,record_type, remark, created_date)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="item.id != null">
+          #{item.id,jdbcType=BIGINT},
+        </if>
+        <if test="item.id == null">
+          NULL,
+        </if>
+        <if test="item.recordNo != null">
+          #{item.recordNo,jdbcType=VARCHAR},
+        </if>
+        <if test="item.recordNo == null">
+          NULL,
+        </if>
+        <if test="item.userNo != null">
+          #{item.userNo,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userNo == null">
+          NULL,
+        </if>
+        <if test="item.score != null">
+          #{item.score,jdbcType=INTEGER},
+        </if>
+        <if test="item.score == null">
+          NULL,
+        </if>
+        <if test="item.operType != null">
+          #{item.operType,jdbcType=TINYINT},
+        </if>
+        <if test="item.operType == null">
+          NULL,
+        </if>
+        <if test="item.recordType != null">
+          #{item.recordType,jdbcType=VARCHAR},
+        </if>
+        <if test="item.recordType == null">
+          NULL,
+        </if>
+        <if test="item.remark != null">
+          #{item.remark,jdbcType=VARCHAR},
+        </if>
+        <if test="item.remark == null">
+          NULL,
+        </if>
+        <if test="item.createdDate != null">
+          #{item.createdDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.createdDate == null">
+          NULL,
+        </if>
+      </trim>
+    </foreach>
+  </insert>
+  <select id="queryCount" parameterType="org.egg.model.VO.CreditScoreFlowQueryReq" resultType="java.lang.Integer">
+    select count(*) from credit_score_flow WHERE 1=1
+    <include refid="WhereQueryEntity" />
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="org.egg.model.DO.CreditScoreFlow">
+    update credit_score_flow
+    <set>
+      <if test="recordNo != null">
+        record_no = #{recordNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="operType != null">
+        oper_type = #{operType,jdbcType=TINYINT},
+      </if>
+      <if test="recordType != null">
+        record_type = #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.egg.model.DO.CreditScoreFlow">
+    update credit_score_flow
+    set record_no = #{recordNo,jdbcType=VARCHAR},
+      user_no = #{userNo,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      oper_type = #{operType,jdbcType=TINYINT},
+      record_type = #{recordType,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

@@ -1,0 +1,31 @@
+.asterisk {
+    font-style: normal;
+    color: red;
+}
+.admin-hide {
+    display: none;
+}
+.records {
+    color: red;
+    font-weight: bold;
+}
+[data-notify="container"] {
+    width: auto;
+}
+[data-notify="message"] {
+    padding-left:10px;
+    padding-right:10px;
+}
+
+body {
+    padding-right: 0px !important;
+}
+*.modal-open {
+    overflow-y: scroll;
+    padding-right: 0 !important;
+}
+
+.console-col-sm-6 {
+    width: 60%;
+    margin-left: 18%;
+}

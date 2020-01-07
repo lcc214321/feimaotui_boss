@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+}
+
+.main {
+    background-color: #f0f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.cen {
+    width: 380px;
+    height: 400px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 4px;
+    position: relative;
+    top: -40px;
+    box-shadow: 0 10px 25px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.cen .logo {
+    width: 100%;
+    height: 38px;
+    margin: 3rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    width:100%;
+    padding :0 40px;
+    box-sizing: border-box;
+}
+
+label {
+    height: 38px;
+    border-radius: 4%;
+    border: 1px solid #c4c4c4;
+    display: flex;
+    overflow: hidden;
+}
+
+label input {
+    border: 0;
+    padding: 0;
+    width: 100%;
+}
+:focus{outline:none}
+.login_form_icon {
+    background: url(../img/default-account.png);
+    background-size: 100%;
+    float: left;
+    width: 38px;
+    height: 38px;
+} .pass_form_icon {
+      background: url(../img/default-pass.png);
+      background-size: 100%;
+      float: left;
+      width: 38px;
+      height: 38px;
+  }
+.formsubmit_btn {
+    display: block;
+    width: 100%;
+    height: 40px;
+    font-family: \5FAE\8F6F\96C5\9ED1,\5B8B\4F53,"Hiragino Sans GB",STHeiti,"WenQuanYi Micro Hei","Droid Sans Fallback",SimSun,sans-serif;
+    font-size: 16px;
+    color: #fff;
+    background: #2c68ff;
+    border: 0;
+    outline: 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.login-button{
+    margin-top: 40px;
+}
+.errMsg {
+    margin-top: 20px;
+    color: #f94f3f;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+.warntip_icon {
+    display: inline-block;
+    margin-right: 7px;
+    width: 16px;
+    height: 16px;
+    background: url(../img/warn.png);
+}
+.hide {
+    display: none;
+}
+.logo img {
+    width: 38px;
+}
+.logo .name {
+    font-size: 24px;
+    line-height: 38px;
+    padding-left: 3px;
+    color: #68c955;
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.egg.mapper.CouponUserExtDAO">
+    <resultMap id="BaseResultMap" type="org.egg.model.DO.CouponUser">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="coupon_id" property="couponId" jdbcType="VARCHAR"/>
+        <result column="user_no" property="userNo" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="expire_date" property="expireDate" jdbcType="TIMESTAMP"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="modified_date" property="modifiedDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <foreach collection="oredCriteria" item="criteria" separator="or">
+            <if test="criteria.valid">
+                <trim prefix="(" suffix=")" prefixOverrides="and">
+                    <foreach collection="criteria.criteria" item="criterion">
+                        <choose>
+                            <when test="criterion.noValue">
+                                and ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                                and ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                                and ${criterion.condition}
+                                <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+                                    #{listItem}
+                                </foreach>
+                            </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </if>
+        </foreach>
+    </sql>
+    <update id="expireCouponUpdate">
+        UPDATE coupon_user set status=2
+        where status=1 and expire_date <![CDATA[<]]> now()
+    </update>
+    <select id="queryList" resultType="org.egg.model.VO.CouponRes"
+            parameterType="org.egg.model.VO.CouponUserQueryReq">
+        SELECT t1.*,t2.coupon_type,t2.threshold_value, t2.value, t2.max_value, t2.gift_flag FROM coupon_user t1,coupon
+        t2
+        where t1.coupon_id=t2.id
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+</mapper>

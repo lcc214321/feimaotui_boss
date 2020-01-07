@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.egg.mapper.FeedBackMapper">
+  <resultMap id="BaseResultMap" type="org.egg.model.DO.FeedBack">
+    <id column="feed_back_no" jdbcType="VARCHAR" property="feedBackNo" />
+    <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="feed_back_content" jdbcType="VARCHAR" property="feedBackContent" />
+    <result column="phone_type" jdbcType="VARCHAR" property="phoneType" />
+    <result column="os" jdbcType="VARCHAR" property="os" />
+    <result column="browser" jdbcType="VARCHAR" property="browser" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="user_agent" jdbcType="VARCHAR" property="userAgent" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
+  </resultMap>
+  <sql id="WhereQueryEntity">
+    <if test="userNo != null">
+       AND user_no = #{userNo,jdbcType=VARCHAR}
+    </if>
+    <if test="feedBackContent != null">
+       AND feed_back_content = #{feedBackContent,jdbcType=VARCHAR}
+    </if>
+    <if test="phoneType != null">
+       AND phone_type = #{phoneType,jdbcType=VARCHAR}
+    </if>
+    <if test="os != null">
+       AND os = #{os,jdbcType=VARCHAR}
+    </if>
+    <if test="browser != null">
+       AND browser = #{browser,jdbcType=VARCHAR}
+    </if>
+    <if test="ip != null">
+       AND ip = #{ip,jdbcType=VARCHAR}
+    </if>
+    <if test="userAgent != null">
+       AND user_agent = #{userAgent,jdbcType=VARCHAR}
+    </if>
+    <if test="createdDate != null">
+       AND created_date = #{createdDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="modifiedDate != null">
+       AND modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+    </if>
+  </sql>
+  <sql id="Base_Column_List">
+    feed_back_no, user_no, feed_back_content, phone_type, os, browser, ip, user_agent, 
+    created_date, modified_date
+  </sql>
+  <sql id="limitPage">
+    <if test="first != null">
+      limit #{first,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+    </if>
+  </sql>
+  <select id="queryList" parameterType="org.egg.model.VO.FeedBackQueryReq" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+     from feed_back WHERE 1=1 
+    <include refid="WhereQueryEntity" />
+    order by feed_back_no desc
+    <include refid="limitPage" />
+
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from feed_back
+    where feed_back_no = #{feedBackNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from feed_back
+    where feed_back_no = #{feedBackNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="org.egg.model.DO.FeedBack" useGeneratedKeys="true">
+    insert into feed_back (feed_back_no, user_no, feed_back_content, 
+      phone_type, os, browser, 
+      ip, user_agent, created_date, 
+      modified_date)
+    values (#{feedBackNo,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, #{feedBackContent,jdbcType=VARCHAR}, 
+      #{phoneType,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, #{browser,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{modifiedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="org.egg.model.DO.FeedBack" useGeneratedKeys="true">
+    insert into feed_back
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="feedBackNo != null">
+        feed_back_no,
+      </if>
+      <if test="userNo != null">
+        user_no,
+      </if>
+      <if test="feedBackContent != null">
+        feed_back_content,
+      </if>
+      <if test="phoneType != null">
+        phone_type,
+      </if>
+      <if test="os != null">
+        os,
+      </if>
+      <if test="browser != null">
+        browser,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="userAgent != null">
+        user_agent,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="modifiedDate != null">
+        modified_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="feedBackNo != null">
+        #{feedBackNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userNo != null">
+        #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="feedBackContent != null">
+        #{feedBackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneType != null">
+        #{phoneType,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null">
+        #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null">
+        #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="userAgent != null">
+        #{userAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedDate != null">
+        #{modifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into feed_back (feed_back_no, user_no, feed_back_content, 
+      phone_type, os, browser, 
+      ip, user_agent, created_date, 
+      modified_date)
+    values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.feedBackNo,jdbcType=VARCHAR}, #{item.userNo,jdbcType=VARCHAR}, #{item.feedBackContent,jdbcType=VARCHAR}, 
+        #{item.phoneType,jdbcType=VARCHAR}, #{item.os,jdbcType=VARCHAR}, #{item.browser,jdbcType=VARCHAR}, 
+        #{item.ip,jdbcType=VARCHAR}, #{item.userAgent,jdbcType=VARCHAR}, #{item.createdDate,jdbcType=TIMESTAMP}, 
+        #{item.modifiedDate,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+    insert into feed_back
+    (feed_back_no, user_no, feed_back_content, phone_type, os, browser, ip, user_agent, 
+      created_date, modified_date)
+    values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="item.feedBackNo != null">
+          #{item.feedBackNo,jdbcType=VARCHAR},
+        </if>
+        <if test="item.feedBackNo == null">
+          NULL,
+        </if>
+        <if test="item.userNo != null">
+          #{item.userNo,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userNo == null">
+          NULL,
+        </if>
+        <if test="item.feedBackContent != null">
+          #{item.feedBackContent,jdbcType=VARCHAR},
+        </if>
+        <if test="item.feedBackContent == null">
+          NULL,
+        </if>
+        <if test="item.phoneType != null">
+          #{item.phoneType,jdbcType=VARCHAR},
+        </if>
+        <if test="item.phoneType == null">
+          NULL,
+        </if>
+        <if test="item.os != null">
+          #{item.os,jdbcType=VARCHAR},
+        </if>
+        <if test="item.os == null">
+          NULL,
+        </if>
+        <if test="item.browser != null">
+          #{item.browser,jdbcType=VARCHAR},
+        </if>
+        <if test="item.browser == null">
+          NULL,
+        </if>
+        <if test="item.ip != null">
+          #{item.ip,jdbcType=VARCHAR},
+        </if>
+        <if test="item.ip == null">
+          NULL,
+        </if>
+        <if test="item.userAgent != null">
+          #{item.userAgent,jdbcType=VARCHAR},
+        </if>
+        <if test="item.userAgent == null">
+          NULL,
+        </if>
+        <if test="item.createdDate != null">
+          #{item.createdDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.createdDate == null">
+          NULL,
+        </if>
+        <if test="item.modifiedDate != null">
+          #{item.modifiedDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.modifiedDate == null">
+          NULL,
+        </if>
+      </trim>
+    </foreach>
+  </insert>
+  <select id="queryCount" parameterType="org.egg.model.VO.FeedBackQueryReq" resultType="java.lang.Integer">
+    select count(*) from feed_back WHERE 1=1 
+    <include refid="WhereQueryEntity" />
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="org.egg.model.DO.FeedBack">
+    update feed_back
+    <set>
+      <if test="userNo != null">
+        user_no = #{userNo,jdbcType=VARCHAR},
+      </if>
+      <if test="feedBackContent != null">
+        feed_back_content = #{feedBackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneType != null">
+        phone_type = #{phoneType,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null">
+        os = #{os,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null">
+        browser = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="userAgent != null">
+        user_agent = #{userAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <!--<if test="modifiedDate != null">-->
+        <!--modified_date = #{modifiedDate,jdbcType=TIMESTAMP},-->
+      <!--</if>-->
+    </set>
+    where feed_back_no = #{feedBackNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.egg.model.DO.FeedBack">
+    update feed_back
+    set user_no = #{userNo,jdbcType=VARCHAR},
+      feed_back_content = #{feedBackContent,jdbcType=VARCHAR},
+      phone_type = #{phoneType,jdbcType=VARCHAR},
+      os = #{os,jdbcType=VARCHAR},
+      browser = #{browser,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      user_agent = #{userAgent,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+    where feed_back_no = #{feedBackNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

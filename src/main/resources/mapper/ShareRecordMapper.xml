@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.egg.mapper.ShareRecordDAO">
+    <resultMap id="BaseResultMap" type="org.egg.model.DO.ShareRecord">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_no" jdbcType="VARCHAR" property="userNo"/>
+        <result column="share_type" jdbcType="TINYINT" property="shareType"/>
+        <result column="share_status" jdbcType="TINYINT" property="shareStatus"/>
+        <result column="created_date" jdbcType="TIMESTAMP" property="createdDate"/>
+    </resultMap>
+    <sql id="WhereQueryEntity">
+        <if test="userNo != null">
+            AND user_no = #{userNo,jdbcType=VARCHAR}
+        </if>
+        <if test="shareType != null">
+            AND share_type = #{shareType,jdbcType=TINYINT}
+        </if>
+        <if test="shareStatus != null">
+            AND share_status = #{shareStatus,jdbcType=TINYINT}
+        </if>
+        <if test="createdDate != null">
+            AND created_date = #{createdDate,jdbcType=TIMESTAMP}
+        </if>
+    </sql>
+    <sql id="Base_Column_List">
+    id, user_no, share_type, share_status, created_date
+  </sql>
+    <sql id="limitPage">
+        <if test="first != null">
+            limit #{first,jdbcType=INTEGER},#{end,jdbcType=INTEGER}
+        </if>
+    </sql>
+    <select id="queryList" parameterType="org.egg.model.VO.ShareRecordQueryReq" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from share_record WHERE 1=1
+        <include refid="WhereQueryEntity"/>
+        order by id desc
+        <include refid="limitPage"/>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from share_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from share_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="org.egg.model.DO.ShareRecord">
+    insert into share_record (id, user_no, share_type, 
+      share_status, created_date)
+    values (#{id,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR}, #{shareType,jdbcType=TINYINT}, 
+      #{shareStatus,jdbcType=TINYINT}, #{createdDate,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="org.egg.model.DO.ShareRecord">
+        insert into share_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userNo != null">
+                user_no,
+            </if>
+            <if test="shareType != null">
+                share_type,
+            </if>
+            <if test="shareStatus != null">
+                share_status,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userNo != null">
+                #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="shareType != null">
+                #{shareType,jdbcType=TINYINT},
+            </if>
+            <if test="shareStatus != null">
+                #{shareStatus,jdbcType=TINYINT},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into share_record (id, user_no, share_type,
+        share_status, created_date)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.id,jdbcType=INTEGER}, #{item.userNo,jdbcType=VARCHAR}, #{item.shareType,jdbcType=TINYINT},
+            #{item.shareStatus,jdbcType=TINYINT}, #{item.createdDate,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+    <insert id="insertBatchSelective" parameterType="java.util.List">
+        insert into share_record
+        (id, user_no, share_type, share_status, created_date)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    #{item.id,jdbcType=INTEGER},
+                </if>
+                <if test="item.id == null">
+                    NULL,
+                </if>
+                <if test="item.userNo != null">
+                    #{item.userNo,jdbcType=VARCHAR},
+                </if>
+                <if test="item.userNo == null">
+                    NULL,
+                </if>
+                <if test="item.shareType != null">
+                    #{item.shareType,jdbcType=TINYINT},
+                </if>
+                <if test="item.shareType == null">
+                    NULL,
+                </if>
+                <if test="item.shareStatus != null">
+                    #{item.shareStatus,jdbcType=TINYINT},
+                </if>
+                <if test="item.shareStatus == null">
+                    NULL,
+                </if>
+                <if test="item.createdDate != null">
+                    #{item.createdDate,jdbcType=TIMESTAMP},
+                </if>
+                <if test="item.createdDate == null">
+                    NULL,
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+    <select id="queryCount" parameterType="org.egg.model.VO.ShareRecordQueryReq" resultType="java.lang.Integer">
+        select count(*) from share_record WHERE 1=1
+        <include refid="WhereQueryEntity"/>
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="org.egg.model.DO.ShareRecord">
+        update share_record
+        <set>
+            <if test="userNo != null">
+                user_no = #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="shareType != null">
+                share_type = #{shareType,jdbcType=TINYINT},
+            </if>
+            <if test="shareStatus != null">
+                share_status = #{shareStatus,jdbcType=TINYINT},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.egg.model.DO.ShareRecord">
+    update share_record
+    set user_no = #{userNo,jdbcType=VARCHAR},
+      share_type = #{shareType,jdbcType=TINYINT},
+      share_status = #{shareStatus,jdbcType=TINYINT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
