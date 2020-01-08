@@ -16,9 +16,7 @@ import org.egg.utils.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,9 +40,6 @@ public class PublishOrderBiz {
     private AcceptOrderServiceImpl acceptOrderService;
     @Autowired
     private AcceptOrderBiz acceptOrderBiz;
-    @Autowired
-    @Qualifier("poolExecutorSendMsg")
-    private ThreadPoolTaskExecutor poolExecutorSendMsg;
     @Autowired
     private FeeRuleBiz feeRuleBiz;
     @Autowired

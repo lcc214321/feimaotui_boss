@@ -20,9 +20,7 @@ import org.egg.utils.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,9 +41,6 @@ public class AccountFlowBiz {
     private PublishOrderServiceImpl publishOrderService;
     @Autowired
     private UserServiceImpl userService;
-    @Autowired
-    @Qualifier("poolExecutorSendMsg")
-    private ThreadPoolTaskExecutor poolExecutorSendMsg;
     @Autowired
     private BizTemplate bizTemplate;
     @Value("page.num")

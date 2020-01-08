@@ -18,16 +18,16 @@ function foucs($this) {
 }
 function logOut() {
     $.ajax({
-        url : "/boss/logout",
+        url : "/user/logout",
         type : "POST",
         data : {},
         dataType : "json",
         success : function(data, textStatus) {
-            if (data.success) {
-                location.href = '/boss/';
+            if (data.status) {
+                location.href = '/';
                 return;
             }
-            alert(data.respDesc);
+            alert(data.msg);
 
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -45,26 +45,18 @@ function resetPwd() {
     });
 }
 function confirmResetPwd() {
-    var data = $("#add-approval-control-form").data('bootstrapValidator');
-    if (data) {
-        // 修复记忆的组件不验证
-        data.validate();
-        if (!data.isValid()) {
-            return false;
-        }
-    }
     $.ajax({
-        url : "/boss/modifyPwd",
+        url : "/user/modifyPwd",
         type : "POST",
         data : $("#add-approval-control-form").serialize(),
         dataType : "json",
         success : function(data, textStatus) {
-            if (data.success) {
-                alert(data.respDesc);
-                location.href = '/boss/';
+            if (data.status) {
+                alert(data.msg);
+                location.href = '/';
                 return;
             }
-            alert(data.respDesc);
+            alert(data.msg);
 
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {

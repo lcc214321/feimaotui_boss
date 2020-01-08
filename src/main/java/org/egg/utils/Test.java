@@ -1,5 +1,8 @@
 package org.egg.utils;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * @author dataochen
  * @Description
@@ -7,8 +10,12 @@ package org.egg.utils;
  */
 public class Test {
     public static void main(String[] args) {
-        String name = Test.class.getName();
-        System.out.println(name);
-//        String s = "{\"\"}";
+        LinkedHashMap<String, String> stringStringLinkedHashMap = new LinkedHashMap<>();
+        stringStringLinkedHashMap.put("资金流水管理", "1");
+        stringStringLinkedHashMap.put("用户信誉分管理", "2");
+        stringStringLinkedHashMap.put("优惠券基础信息管理", "3");
+        for (Map.Entry<String, String> stringStringEntry : stringStringLinkedHashMap.entrySet()) {
+            System.out.println(stringStringEntry.getKey());
+        }
     }
 }

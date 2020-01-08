@@ -1,6 +1,7 @@
 package org.egg.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.jingda.api.OrderFacade;
 import org.apache.commons.collections.CollectionUtils;
 import org.egg.biz.AcceptOrderBiz;
 import org.egg.biz.PublishOrderBiz;
@@ -42,6 +43,8 @@ public class OrderController {
     private PublishOrderBiz publishOrderBiz;
     @Autowired
     private AcceptOrderServiceImpl acceptOrderService;
+    @Autowired
+    private OrderFacade orderFacade;
 
     @Value("${black.user.no}")
     private String BLANK_USER_NO;
@@ -151,6 +154,14 @@ public class OrderController {
     @RequestMapping("/closeAdmin")
     @ResponseBody
     public BaseResult closeAdmin(String acceptOrderNo) {
-        return acceptOrderBiz.closeAdmin(acceptOrderNo);
+        BaseResult result = new BaseResult();
+        result.setSuccess(true);
+        com.jingda.domain.BaseResult baseResult = orderFacade.closeAdmin(acceptOrderNo);
+        if (!baseResult.isSuccess()) {
+            result.setRespCode(baseResult.getCode());
+            result.setRespDesc(baseResult.getDesc());
+            baseResult.setSuccess(false);
+        }
+        return result;
     }
 }

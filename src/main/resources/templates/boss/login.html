@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="../css/login.css"/>
-    <script type="application/javascript" src="../js/jquery.js"></script>
+    <!--<div th:replace="~{base/js-bar :: js-bar}"></div>-->
+    <script th:src="@{/js/jquery.min.js}"></script>
     <script type="application/javascript" src="../js/pages/login.js"></script>
 </head>
 <body>
@@ -19,12 +20,12 @@
     <div class="cen">
         <div class="logo">
             <img src="../img/logo.png"/>
-            <span class="name">金仕林纸业</span>
+            <span class="name">蚂蚁科技</span>
         </div>
         <form method="post" id="login_form">
             <label>
                 <i class="login_form_icon"></i>
-                <input class="name" name="account" type="text" placeholder="请输入账号"/>
+                <input class="name" name="name" type="text" placeholder="请输入账号"/>
             </label>
             <label style="margin-top: 20px;">
                 <i class="pass_form_icon"></i>

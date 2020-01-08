@@ -31,6 +31,7 @@ body {
     margin: 3rem 0;
     display: flex;
     justify-content: center;
+    align-items:center;
 }
 
 form {
@@ -73,7 +74,7 @@ label input {
     font-family: \5FAE\8F6F\96C5\9ED1,\5B8B\4F53,"Hiragino Sans GB",STHeiti,"WenQuanYi Micro Hei","Droid Sans Fallback",SimSun,sans-serif;
     font-size: 16px;
     color: #fff;
-    background: #2c68ff;
+    background: #ee3339;
     border: 0;
     outline: 0;
     border-radius: 4px;
@@ -101,11 +102,12 @@ label input {
     display: none;
 }
 .logo img {
-    width: 38px;
+    width: 50px;
+    height: 50px;
 }
 .logo .name {
     font-size: 24px;
     line-height: 38px;
-    padding-left: 3px;
-    color: #68c955;
+    padding-left: 16px;
+    color: #ee3339;
 }

@@ -2,9 +2,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<link rel="stylesheet" href="../css/main.css" />
-<script type="application/javascript" src="../js/jquery.js"></script>
-<script type="application/javascript" src="../js/pages/main/main.validator.js"></script>
+    <link rel="stylesheet" href="../css/main.css" />
+    <script type="application/javascript" src="../js/jquery.js"></script>
+    <script type="application/javascript" src="../js/pages/main/main.validator.js"></script>
     <div th:replace="~{base/js-bar :: js-bar}"></div>
     <script th:src="@{/plugins/bootstrap-validator/dist/js/bootstrapValidator.js}"></script>
 
@@ -15,25 +15,22 @@
 <div style="height:100%;">
     <div class="head">
         <div class="head-left">
-            <span>金仕林纸业</span>
+            <span>蚂蚁科技</span>
         </div>
         <div class="right" >
             <div onclick="resetPwd()" class="resetPwd" onmouseover="switchOver(this)" onmouseout="switchOut(this) ">修改密码</div>
-            <span th:text="${user.account}"></span>
+            <span th:text="${user.loginName}"></span>
             <div class="logout" onmouseover="switchOver(this)" onmouseout="switchOut(this) " onclick="logOut()">
-               <img class="icon" src="../img/resign.png"/>退出登录
+                <img class="icon" src="../img/resign.png"/>退出登录
             </div>
         </div>
     </div>
     <div class="contentman">
         <div class="left">
-            <a href="/record/index" target="myIframe" onclick="foucs(this)"><div class="item foucs">记录管理</div></a>
-            <a href="/record/sum" target="myIframe" onclick="foucs(this)"  th:if="${admin}"><div class="item ">汇总管理</div></a>
-            <a href="/recordChart/index" target="myIframe" onclick="foucs(this)"  th:if="${admin}"><div class="item ">汇总图表</div></a>
-            <a href="/user/index" target="myIframe" onclick="foucs(this)"  th:if="${admin}"><div class="item ">用户管理</div></a>
+            <a th:href="${entry.value}" th:each="entry:${menuList}"   target="myIframe" onclick="foucs(this)"><div class="item " th:text="${entry.key}"></div></a>
         </div>
         <div class="content-right">
-            <iframe src="/record/index" style="padding:0 10px" name="myIframe"></iframe>
+            <iframe src="" style="padding:0 10px" name="myIframe"></iframe>
         </div>
     </div>
 

@@ -1,7 +1,6 @@
 package org.egg.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.egg.biz.BossUserBiz;
 import org.egg.enums.BossUserLevelEnum;
@@ -13,21 +12,23 @@ import org.egg.model.VO.BossUserQueryReq;
 import org.egg.model.VO.BossUserRes;
 import org.egg.response.BaseResult;
 import org.egg.response.PageResult;
-import org.egg.utils.EncryptionUtil;
+import org.egg.utils.ConstantsUtil;
+import org.egg.utils.PropertiesOrderly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
@@ -43,12 +44,12 @@ public class BossController extends BossBaseController {
     /**
      * 分级用户的菜单权限
      */
-    private static Map<String, List<Map<String, String>>> menu_map = new HashMap<>();
+    private static Map<String, Map<String, String>> menu_map = new HashMap<>();
 
     static {
-        List<Map<String, String>> LEVEL_ONE = new ArrayList<>();
-        List<Map<String, String>> LEVEL_TWO = new ArrayList<>();
-        List<Map<String, String>> BOSS = new ArrayList<>();
+        Map<String, String> LEVEL_ONE = new LinkedHashMap<>();
+        Map<String, String> LEVEL_TWO = new LinkedHashMap<>();
+        Map<String, String> BOSS = new LinkedHashMap<>();
         obtain(LEVEL_ONE, "/boss_menu_one.properties");
         obtain(LEVEL_TWO, "/boss_menu_two.properties");
         obtain(BOSS, "/boss_menu.properties");
@@ -57,14 +58,15 @@ public class BossController extends BossBaseController {
         menu_map.put(BossUserLevelEnum.BOSS.getCode(), BOSS);
     }
 
-    private static void obtain(List<Map<String, String>> LEVEL, String configPath) {
+    private static void obtain(Map<String, String> LEVEL, String configPath) {
         try {
-            Properties properties = PropertiesLoaderUtils.loadProperties(new ClassPathResource("/boss_menu.properties"));
-            Set<Map.Entry<Object, Object>> entries = properties.entrySet();
+            EncodedResource encodedResource = new EncodedResource(new ClassPathResource(configPath), "UTF-8");
+            PropertiesOrderly propertiesOrderly = new PropertiesOrderly();
+            PropertiesLoaderUtils.fillProperties(propertiesOrderly, encodedResource);
+            LinkedHashMap<Object, Object> map = propertiesOrderly.getMap();
+            Set<Map.Entry<Object, Object>> entries = map.entrySet();
             for (Map.Entry<Object, Object> entry : entries) {
-                HashMap<String, String> objectObjectHashMap = new HashMap<>();
-                objectObjectHashMap.put(entry.getKey().toString(), entry.getValue().toString());
-                LEVEL.add(objectObjectHashMap);
+                LEVEL.put(entry.getKey().toString(), entry.getValue().toString());
             }
         } catch (IOException e) {
             LOGGER.error("读取后台菜单数据错误 e={}", e);
@@ -83,30 +85,37 @@ public class BossController extends BossBaseController {
     @RequestMapping("/")
     public String index(HttpServletRequest request, Model model) {
         BossUser account = getAccount(request);
-        List<Map<String, String>> strings = menu_map.get(account.getLevel());
+        Map<String, String> strings = menu_map.get(account.getLevel());
         model.addAttribute("menuList", strings);
         model.addAttribute("user", account);
         return "boss/main";
     }
 
     @RequestMapping("/toBossLogin")
-    public String toBossLogin() {
-        return "boss/bossLogin";
+    public String toBossLogin(String returnUrl) {
+        return "boss/login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult login(HttpServletRequest request, @RequestParam("reqStr") String reqStr) {
+    public BaseResult login(HttpServletRequest request, BossLoginDto bossLoginDto) {
         try {
-            String s = EncryptionUtil.aesDecrypt(reqStr, EncryptionUtil.AES_KEY);
-            //解析s json反序列化
-            BossLoginDto bossLoginDto = JSONObject.parseObject(s, BossLoginDto.class);
             BaseResult login = bossUserBiz.login(bossLoginDto, request);
 
             return login;
         } catch (Exception e) {
             return new BaseResult(CommonErrorEnum.PARAM_ENCRY_ERROR);
         }
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult logout(HttpServletRequest request) {
+        BaseResult result = new BaseResult();
+        result.setSuccess(true);
+        HttpSession session = request.getSession();
+        session.setAttribute(ConstantsUtil.BOSS_USER_KEY, null);
+        return result;
     }
 
     /**
@@ -173,6 +182,15 @@ public class BossController extends BossBaseController {
     public BaseResult resetPwd(String userNo) {
         LOGGER.info("resetPwd userNo={}", userNo);
         BaseResult result = bossUserBiz.restPwd(userNo);
+        return result;
+    }
+
+    @RequestMapping("/modifyPwd")
+    @ResponseBody
+    public BaseResult modifyPwd(HttpServletRequest request, String oldPwd, String newPwd) {
+        LOGGER.info("modifyPwd oldPwd={},newPwd={}", oldPwd, newPwd);
+        BossUser account = getAccount(request);
+        BaseResult result = bossUserBiz.modifyPwd(account.getBossUserNo(), oldPwd, newPwd, request);
         return result;
     }
 

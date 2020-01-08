@@ -174,4 +174,33 @@ public class BossUserBiz {
         });
         return result;
     }
+
+    public BaseResult modifyPwd(String userNo, String oldPwd, String newPwd,HttpServletRequest request) {
+        BaseResult result = new BaseResult();
+        bizTemplate.process(result, new TemplateCallBack() {
+            @Override
+            public void doCheck() {
+            }
+
+            @Override
+            public void doAction() {
+                BossUserQueryReq bossUserQueryReq = new BossUserQueryReq();
+                bossUserQueryReq.setBossUserNo(userNo);
+                List<BossUser> bossUsers = bossUserService.queryList(bossUserQueryReq);
+                if (CollectionUtils.isEmpty(bossUsers)) {
+                    throw new CommonException(CommonErrorEnum.PARAM_ERROR);
+                }
+                BossUser bossUser = bossUsers.get(0);
+                if (!bossUser.getLoginPwd().equals(oldPwd)) {
+                    throw new CommonException(CommonErrorEnum.PARAM_ERROR.getCode(), "原密码错误");
+                }
+                bossUser.setLoginPwd(newPwd);
+                bossUserService.update(bossUser);
+                HttpSession session = request.getSession();
+                session.setAttribute(ConstantsUtil.BOSS_USER_KEY, null);
+            }
+        });
+        return result;
+    }
+
 }

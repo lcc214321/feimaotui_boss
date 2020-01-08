@@ -10,14 +10,14 @@ $(function () {
 });
 function login() {
     $.ajax({
-        url : "/user/login",
+        url : "/boss/login",
         type : "POST",
         data : $("#login_form").serialize(),
         dataType : "json",
         success : function(data) {
-            if (data.status) {
+            if (data.success) {
                 var val = $("#returnUrl").val();
-                location.href = !val?'/':val;
+                location.href = !val?'/boss/':val;
                 return;
             }
             $("#content").html(data.msg);
