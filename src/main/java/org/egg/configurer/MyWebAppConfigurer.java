@@ -1,7 +1,6 @@
 package org.egg.configurer;
 
 import org.egg.Interceptor.BossLoginInterceptor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -10,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Description springboot 配置
  * @date: 2017/11/7 16:29
  */
-@Configuration
+//@Configuration
 public class MyWebAppConfigurer
         implements WebMvcConfigurer {
 
