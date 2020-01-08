@@ -21,7 +21,7 @@ $(function () {
             {field: 'userNo', title: '用户编号', width: 120, align: 'center'},
             {field: 'shareTypeStr', title: '分享类型', width: 120, align: 'center'},
             {field: 'shareStatusStr', title: '分享状态', width: 120, align: 'center'},
-            {field: 'createdDate', title: 'Create Date', width: 240, align: 'center',
+            {field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
                     var newDate = new Date();
                     newDate.setTime(Date.parse(value));

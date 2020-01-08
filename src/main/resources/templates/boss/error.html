@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{})">
+    <title>boss-error</title>
+</head>
+<body>
+<p>错误描述</p>
+<span th:text="${errorMsg}"></span>
+</body>
+</html>

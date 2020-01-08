@@ -2,6 +2,7 @@ package org.egg.biz;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.egg.enums.ApproveStatusEnum;
 import org.egg.enums.CommonErrorEnum;
 import org.egg.enums.CreditScoreOperatTypeEnum;
 import org.egg.enums.UserStatusEnum;
@@ -9,10 +10,7 @@ import org.egg.exception.CommonException;
 import org.egg.model.DO.CreditScoreFlow;
 import org.egg.model.DO.User;
 import org.egg.model.DTO.UserModifyDto;
-import org.egg.model.VO.BossUserRes;
-import org.egg.model.VO.CreditScoreFlowQueryReq;
-import org.egg.model.VO.CreditScoreRes;
-import org.egg.model.VO.UserQueryReq;
+import org.egg.model.VO.*;
 import org.egg.response.BaseResult;
 import org.egg.response.PageResult;
 import org.egg.service.impl.*;
@@ -80,15 +78,16 @@ public class UserBiz {
                 pageResult.setTotal(i);
                 if (i != 0) {
                     List<User> users = userService.queryList(userStuQueryReq);
-                    ArrayList<BossUserRes> bossUserResArrayList = new ArrayList<>();
+                    ArrayList<UserVO> UserResArrayList = new ArrayList<>();
                     if (CollectionUtils.isNotEmpty(users)) {
                         users.forEach(item -> {
-                            BossUserRes bossUserRes = new BossUserRes();
-                            BeanUtil.copyProperties(item, bossUserRes);
-                            bossUserRes.setUserStatusStr(UserStatusEnum.getDescByCode(item.getUserStatus()));
-                            bossUserResArrayList.add(bossUserRes);
+                            UserVO userVO = new UserVO();
+                            BeanUtil.copyProperties(item, userVO);
+                            userVO.setUserStatusStr(UserStatusEnum.getDescByCode(item.getUserStatus()));
+                            userVO.setRealStatusStr(ApproveStatusEnum.getDescByCode(item.getRealStatus()));
+                            UserResArrayList.add(userVO);
                         });
-                        pageResult.setData(bossUserResArrayList);
+                        pageResult.setData(UserResArrayList);
                     }
                 }
 

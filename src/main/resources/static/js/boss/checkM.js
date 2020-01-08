@@ -19,34 +19,57 @@ $(function () {
         singleSelect: true,
         columns: [[
             {field: 'id', title: 'ID', width: 40, align: 'center'},
-            {field: 'acceptOrderNo', title: 'acceptOrderNo', width: 40, align: 'center'},
-            {field: 'orderUserNo', title: 'orderUserNo', width: 120, align: 'center'},
-            {field: 'publishOrderNo', title: 'publishOrderNo', width: 120, align: 'center'},
-            {field: 'checkFailReason', title: 'checkFailReason', width: 120, align: 'center'},
-            {field: 'overdueDays', title: 'overdueDays', width: 120, align: 'center'},
-            {field: 'orderStatusStr', title: 'orderStatusStr', width: 120, align: 'center'},
-            {field: 'finishRemark', title: 'finishRemark', width: 120, align: 'center'},
-            {field: 'createdDate', title: 'Create Date', width: 240, align: 'center',
+            {field: 'orderNo', title: '接单单号', width: 40, align: 'center'},
+            {field: 'userNo', title: '接单用户编号', width: 120, align: 'center'},
+            {field: 'pubOrderNo', title: '发布单号', width: 120, align: 'center'},
+            {field: 'cancelReason', title: '取消原因', width: 120, align: 'center'},
+            {field: 'amout', title: '接单奖励金额', width: 120, align: 'center'},
+            {field: 'pubPrice', title: '发布单金额', width: 120, align: 'center'},
+            {field: 'orderStatusStr', title: '状态', width: 120, align: 'center'},
+            {
+                field: 'timeDelay', title: '超时时间', width: 240, align: 'center',
+                formatter: function (value) {
+                    if (!value) {
+                        return '-';
+                    }
+                    var newDate = new Date();
+                    newDate.setTime(Date.parse(value));
+                    return newDate.toLocaleString();
+                }
+            },
+            {
+                field: 'finishedDate', title: '完成时间', width: 240, align: 'center',
+                formatter: function (value) {
+                    if (!value) {
+                        return '-';
+                    }
+                    var newDate = new Date();
+                    newDate.setTime(Date.parse(value));
+                    return newDate.toLocaleString();
+                }
+            }, {
+                field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
                     var newDate = new Date();
-                    newDate.setTime(Date.parse(value) );
+                    newDate.setTime(Date.parse(value));
                     return newDate.toLocaleString();
-                }},
-            {field: 'modifiedDate', title: 'modify Date', width: 240, align: 'center',
+                }
+            },
+            {
+                field: 'mofiedDate', title: '修改时间', width: 240, align: 'center',
                 formatter: function (value) {
                     if (value) {
                         var newDate = new Date();
-                        newDate.setTime(Date.parse(value) );
+                        newDate.setTime(Date.parse(value));
                         return newDate.toLocaleString();
                     }
                     return value;
-                }},
-            {field: 'version', title: 'version', width: 120, align: 'center'},
-            {field: 'fileUrl', title: 'fileUrl', width: 120, align: 'center'},
+                }
+            },
             {
                 field: 'operation', title: 'Operation', width: 100, align: 'center',
                 formatter: function (value, row, index) {
-                    var    op = "<a herf='javacript:;' onclick='showDetail(" + '"' + row.acceptOrderNo + '"' + ")' style='color: blue;cursor:pointer;'>详情</a>&nbsp";
+                    var op = "<a herf='javacript:;' onclick='closeAdmin(" + '"' + row.acceptOrderNo + '"' + ")' style='color: blue;cursor:pointer;'>手动关闭</a>&nbsp";
                     return op;
                 }
             }
@@ -76,13 +99,32 @@ $(function () {
     });
     $(".resetBtn").click(function () {
         $("#searchForm").form('clear');
-        $("input[name='acceptOrderNo']").val("");
-        $("input[name='orderUserNo']").val("");
-        $("input[name='orderStatus']").val("");
+        $("input[name='status']").val("");
     });
 
 });
 
-function showDetail(acceptOrderNo) {
-    window.open('/boss/order/showDetail?acceptOrderNo=' + acceptOrderNo);
+
+function closeAdmin(acceptOrderNo) {
+    $.messager.confirm('提示框', '你确定要手动关闭订单吗?必须确定已经处理完成此单子才可以手动关闭哦',function(data){
+        if (data) {
+            $.ajax({
+                type: 'POST',
+                url: 'closeAdmin',
+                dataType: 'json',
+                data: {'acceptOrderNo':acceptOrderNo},
+                success: function (result) {
+                    if (!result.success) {
+                        var errorDesc = 'system exception';
+                        $.messager.show({
+                            title: 'Error',
+                            msg: errorDesc
+                        });
+                    } else {
+                        location.href = location.href;
+                    }
+                }
+            });
+        }
+    })
 }

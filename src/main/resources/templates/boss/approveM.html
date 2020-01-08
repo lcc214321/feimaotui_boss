@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>跑手申请管理</title>
+    <script type="text/javascript" th:src="@{/js/boss/approveM.js}"></script>
+</head>
+<body>
+<div class="main">
+    <form id="searchForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    手机号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="telNo"></input>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="7">
+                </td>
+                <td class="right" style="width: auto" align="right">
+                    <a class="queryBtn l-btn">
+                        <span class="l-btn-text">查询</span>
+                    </a>
+                    <a class="resetBtn l-btn">
+                        <span class="l-btn-text">重置</span>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDetail()">审核</a>
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="agentDone()">Agent</a>-->
+</div>
+<div>
+    <div class='table-container'>
+        <table id='MGrid'></table>
+    </div>
+</div>
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" style="margin:0;padding:20px 50px">
+        <!--<div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">调整发布单逾期时间</div>-->
+        <input type="hidden" name="version"/>
+        <input type="hidden" name="userNo"/>
+        <div style="margin-bottom:10px;">
+            <input name="id" readonly="readonly" class="easyui-textbox"  label="id"
+                   style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="telNo" class="easyui-textbox" readonly="readonly" label="手机号" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="stuNo" class="easyui-textbox"  label="学号" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="gender" class="easyui-textbox"  label="性别" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="realName" class="easyui-textbox"  label="姓名" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="realIdNo" class="easyui-textbox"  label="实名证件号" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="stuSchName" class="easyui-textbox"  label="学校名称" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="stuAddressL" class="easyui-textbox"  label="住址（楼号）" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="stuAddressQ" class="easyui-textbox"  label="详细住址" style="width:100%"/>
+        </div>
+
+        <div id="dlg-buttons">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="checkSucc()"
+               style="width:90px">审核成功</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-no" onclick="checkFail()"
+               style="width:90px">审核失败</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+               onclick="cancel('dlg')" style="width:90px">取消</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

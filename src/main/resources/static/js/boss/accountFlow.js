@@ -26,18 +26,21 @@ $(function () {
             {field: 'remark', title: 'remark', width: 120, align: 'center'},
             {field: 'orderNo', title: 'orderNo', width: 120, align: 'center'},
             {field: 'totalMoney', title: 'totalMoney', width: 120, align: 'center'},
+            {field: 'payAmount', title: 'payAmount', width: 120, align: 'center'},
+            {field: 'couponAmount', title: 'couponAmount', width: 120, align: 'center'},
+            {field: 'couponId', title: 'couponId', width: 120, align: 'center'},
             {field: 'userNo', title: 'userNo', width: 120, align: 'center'},
             {field: 'accType', title: 'accType', width: 120, align: 'center'},
             {field: 'accTypeStr', title: 'accTypeStr', width: 120, align: 'center'},
             {field: 'recordStatus', title: 'recordStatus', width: 120, align: 'center'},
             {field: 'recordStatusStr', title: 'recordStatusStr', width: 120, align: 'center'},
-            {field: 'createdDate', title: 'Create Date', width: 240, align: 'center',
+            {field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
                     var newDate = new Date();
                     newDate.setTime(Date.parse(value) );
                     return newDate.toLocaleString();
                 }},
-            {field: 'modifiedDate', title: 'modified Date', width: 240, align: 'center',
+            {field: 'modifiedDate', title: '修改时间', width: 240, align: 'center',
                 formatter: function (value) {
                     if (value) {
                         var newDate = new Date();

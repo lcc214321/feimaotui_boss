@@ -6,11 +6,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.egg.biz.AcceptOrderBiz;
 import org.egg.biz.PublishOrderBiz;
 import org.egg.enums.AcceptOrderStatusEnum;
+import org.egg.enums.CommonErrorEnum;
 import org.egg.enums.PublishOrderStatusEnum;
 import org.egg.enums.PublishOrdersOCEnum;
-import org.egg.model.VO.*;
+import org.egg.model.VO.AcceptOrderQueryReq;
+import org.egg.model.VO.AcceptOrderRes;
+import org.egg.model.VO.PublishOrderQueryReq;
+import org.egg.model.VO.PublishOrderRes;
 import org.egg.response.BaseResult;
-import org.egg.response.CommonSingleResult;
 import org.egg.response.PageResult;
 import org.egg.service.impl.AcceptOrderServiceImpl;
 import org.slf4j.Logger;
@@ -81,16 +84,16 @@ public class OrderController {
         return resultMap;
     }
 
-    @RequestMapping("/showDetail")
-    public ModelAndView queryDetail(String acceptOrderNo, ModelAndView model, HttpServletRequest request) {
-        CommonSingleResult<AccAndPubOrderDetail> result = acceptOrderBiz.queryDetail(acceptOrderNo, null);
-        if (result.isSuccess()) {
-            model.addObject("errorDesc", result.getRespDesc());
-        }
-        model.addObject("data", result.getData());
-        model.setViewName("boss/checkMD");
-        return model;
-    }
+//    @RequestMapping("/showDetail")
+//    public ModelAndView queryDetail(String acceptOrderNo, ModelAndView model, HttpServletRequest request) {
+//        CommonSingleResult<AccAndPubOrderDetail> result = acceptOrderBiz.queryDetail(acceptOrderNo, null);
+//        if (result.isSuccess()) {
+//            model.addObject("errorDesc", result.getRespDesc());
+//        }
+//        model.addObject("data", result.getData());
+//        model.setViewName("boss/checkMD");
+//        return model;
+//    }
 
 
     @RequestMapping("/index")
@@ -156,7 +159,16 @@ public class OrderController {
     public BaseResult closeAdmin(String acceptOrderNo) {
         BaseResult result = new BaseResult();
         result.setSuccess(true);
-        com.jingda.domain.BaseResult baseResult = orderFacade.closeAdmin(acceptOrderNo);
+        com.jingda.domain.BaseResult baseResult = null;
+        try {
+            baseResult = orderFacade.closeAdmin(acceptOrderNo);
+        } catch (Exception e) {
+            LOGGER.error("closeAdmin e={}", e);
+            result.setSuccess(false);
+            result.setRespCode(CommonErrorEnum.SYSTEM_EXCEPTION.getCode());
+            result.setRespDesc(CommonErrorEnum.SYSTEM_EXCEPTION.getDescription());
+            return result;
+        }
         if (!baseResult.isSuccess()) {
             result.setRespCode(baseResult.getCode());
             result.setRespDesc(baseResult.getDesc());

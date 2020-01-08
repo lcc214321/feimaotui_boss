@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.egg.biz.ApproveBiz;
+import org.egg.enums.ApproveStatusEnum;
 import org.egg.model.DO.Approve;
 import org.egg.model.VO.ApproveQueryReq;
 import org.egg.model.VO.BossUserRes;
@@ -55,6 +56,8 @@ public class BossApproveController {
             ApproveQueryReq queryReq = JSON.parseObject(condition, ApproveQueryReq.class);
             queryReq.setPageNo(Integer.valueOf(pageStr));
             queryReq.setPageNum(Integer.valueOf(rowsStr));
+//            查询需要审核的申请记录
+            queryReq.setStatus(ApproveStatusEnum.INIT.getCode());
             PageResult pageResult = approveBiz.queryList4Boss(queryReq);
             if (pageResult.isSuccess()) {
                 List<BossUserRes> rows = new ArrayList<>();

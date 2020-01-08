@@ -30,7 +30,9 @@
             <a th:href="${entry.value}" th:each="entry:${menuList}"   target="myIframe" onclick="foucs(this)"><div class="item " th:text="${entry.key}"></div></a>
         </div>
         <div class="content-right">
+            <!--<div style="height: 20%;"></div>-->
             <iframe src="" style="padding:0 10px" name="myIframe"></iframe>
+
         </div>
     </div>
 

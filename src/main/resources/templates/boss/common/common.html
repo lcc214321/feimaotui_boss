@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="commonHeader(title,links,scripts)">
+    <title th:replace="${title}"></title>
+    <!--禁止所有爬虫 爬取boss页面信息-->
+    <meta name="robots" content="noindex">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="applicable-device"content="pc">
+    <script type="application/javascript" src="/js/common/jquery-3.2.1.min.js"></script>
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/easyui/themes/default/easyui.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/easyui/themes/icon.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/easyui/themes/color.css}"/>
+    <script type="application/javascript" th:src="@{/js/common/jquery.min.js}"></script>
+    <script type="application/javascript" th:src="@{/js/common/jquery.serializejson.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/jquery.easyui.min.js}"></script>
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}"/>
+    <!--/* Per-page placeholder for additional styles */-->
+    <th:block th:replace="${scripts}"/>
+
+</head>
+<body>
+<div th:fragment="commonNav">
+</div>
+<footer th:fragment="commonFooter">
+</footer>
+
+</body>
+</html>

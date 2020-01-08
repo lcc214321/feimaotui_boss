@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>用户记录管理</title>
+    <script type="text/javascript" th:src="@{/js/boss/user.js}"></script>
+</head>
+<body>
+<div class="main">
+    <form id="searchForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    用户编号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="userNo"></input>
+                </td>
+                <td>
+                    手机号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="telNo"></input>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    用户状态:
+                </td>
+                <td>
+                    <select class="easyui-combobox" name="userStatus" id="userStatus">
+                        <option value="" selected="selected">ALL</option>
+                        <option th:each="entry:${userStatusMap.entrySet()}" th:value="${entry.getKey()}"><p
+                                th:text="${entry.getValue()}"/></option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="7">
+                </td>
+                <td class="right" style="width: auto" align="right">
+                    <a class="queryBtn l-btn">
+                        <span class="l-btn-text">查询</span>
+                    </a>
+                    <a class="resetBtn l-btn">
+                        <span class="l-btn-text">重置</span>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDetail()">修改</a>
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="agentDone()">Agent</a>-->
+</div>
+<div>
+    <div class='table-container'>
+        <table id='MGrid'></table>
+    </div>
+</div>
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" style="margin:0;padding:20px 50px">
+        <!--<div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">调整发布单逾期时间</div>-->
+        <input type="hidden" name="version"/>
+        <div style="margin-bottom:10px;">
+            <input name="id" readonly="readonly" class="easyui-textbox"  label="id"
+                   style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="userNo" class="easyui-textbox" readonly="readonly" label="用户编号" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="nickName" class="easyui-textbox" readonly="readonly" label="昵称" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <label>状态</label>&nbsp;&nbsp;&nbsp;
+            <select class="easyui-combobox" name="userStatus" >
+                <option value="" selected="selected">ALL</option>
+                <option th:each="entry:${userStatusMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
+            </select>
+        </div>
+        <div id="dlg-buttons">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save()"
+               style="width:90px">Save</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+               onclick="cancel('dlg')" style="width:90px">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -40,7 +40,7 @@ public class BossGradeRecordController {
     @RequestMapping("/showGradeManage")
     public String showGradeManage(Model model) {
 
-        return "boss/gradeManage";
+        return "boss/gradeRecordManage";
     }
 
     @RequestMapping("/gradeManage/queryList")

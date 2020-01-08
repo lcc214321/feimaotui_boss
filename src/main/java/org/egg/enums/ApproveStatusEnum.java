@@ -7,7 +7,7 @@ import java.util.Map;
  * Created by chendatao on 2017/12/8.
  */
 public enum ApproveStatusEnum {
-    NULL(-1, "", "未知"),
+    NULL(-1, "", "未实名"),
     INIT(0, "INIT", "申请已受理"),
     SUCC(1, "SUCC", "审批通过"),
     FAIL(2, "FAIL", "审批拒绝"),

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{::link},~{::script})">
+    <title>BOSS登录</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style_log.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bossLogin.css}"/>
+    <script type="application/javascript" src="/js/common/crypto-js.js"></script>
+    <script type="application/javascript" src="/js/common/aes.js"></script>
+    <script type="application/javascript" src="/js/common/mode-ecb.js"></script>
+    <script type="application/javascript" src="/js/common/common.js"></script>
+    <script type="application/javascript" src="/js/boss/bossLogin.js"></script>
+</head>
+<body class="login" mycollectionplug="bind">
+<input id="err" type="hidden" th:value="${err}"/>
+
+<div class="login_m">
+    <div class="login_boder">
+
+        <div class="login_padding" id="login_model">
+
+            <h2>USERNAME</h2>
+            <label>
+                <input type="text" id="username" class="txt_input txt_input2" placeholder="Your name"
+                       onchange="checkU()"/>
+            </label>
+            <h2>PASSWORD</h2>
+            <label class="pss">
+                <input type="password" name="textfield2" id="userpwd" class="txt_input" onchange="checkPw()"
+                       placeholder="Your password"/>
+                <p class="" style="color:red;display: none;"> 密码必须是6到16位(字母或数字或下划线)的组合</p>
+            </label>
+            <div class="rem_sub">
+                <div class="rem_sub_l">
+                </div>
+                <label>
+                    <input type="submit" class="grayBtn1" name="button" id="login" value="SIGN-IN"
+                           style="opacity: 0.7;"/>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

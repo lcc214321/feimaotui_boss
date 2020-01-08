@@ -23,13 +23,13 @@ $(function () {
             {field: 'feeTypeStr', title: '收费计算类型', width: 120, align: 'center'},
             {field: 'feeThresholdValue', title: '阈值', width: 120, align: 'center'},
             {field: 'feeValue', title: '阈值对应的满减或打折值', width: 120, align: 'center'},
-            {field: 'createdDate', title: 'Create Date', width: 240, align: 'center',
+            {field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
                     var newDate = new Date();
                     newDate.setTime(Date.parse(value) );
                     return newDate.toLocaleString();
                 }},
-            {field: 'modifiedDate', title: 'modify Date', width: 240, align: 'center',
+            {field: 'modifiedDate', title: '修改时间', width: 240, align: 'center',
                 formatter: function (value) {
                     if (value) {
                         var newDate = new Date();

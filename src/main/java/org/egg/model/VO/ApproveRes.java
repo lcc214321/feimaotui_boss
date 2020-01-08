@@ -8,5 +8,13 @@ import org.egg.model.DO.Approve;
  * @date: 2019/12/13 16:18
  */
 public class ApproveRes extends Approve {
+    private String realStatusStr;
 
+    public String getRealStatusStr() {
+        return realStatusStr;
+    }
+
+    public void setRealStatusStr(String realStatusStr) {
+        this.realStatusStr = realStatusStr;
+    }
 }

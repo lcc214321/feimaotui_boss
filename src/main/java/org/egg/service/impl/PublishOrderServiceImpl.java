@@ -122,7 +122,7 @@ public class PublishOrderServiceImpl extends AbstractService<PubOrder> {
             criteria.andCreatedDateLessThanOrEqualTo(example.getCreatedDateStart());
         }
         if (StringUtils.isNotBlank(example.getOrderColumn())) {
-            StringBuilder stringBuilder = new StringBuilder("order by ");
+            StringBuilder stringBuilder = new StringBuilder(" ");
             stringBuilder.append(example.getOrderColumn());
             stringBuilder.append(" ");
             if (example.getAscFlag()) {

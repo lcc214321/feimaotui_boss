@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{})">
+    <title>boss后台</title>
+</head>
+<body>
+
+
+            <li>
+                <span>订单管理</span>
+                <ul>
+                    <a href="order/showPubOrder" target="_blank"><li>发布单管理</li></a>
+                    <a href="order/index" target="_blank"><li>结算审核管理【查询所有接单列表】</li></a>
+                    <a href="delayM/index" target="_blank"><li>逾期管理</li></a>
+                </ul>
+            </li>
+            <li>
+                <span>资金管理</span>
+                <ul>
+                    <a href="account/showAccountFlow" target="_blank"><li>资金流水管理【父单】</li></a>
+                    <a href="account/showAccountFlowDetail" target="_blank"><li>资金流水详情管理【子单】</li></a>
+                    <a href="feeRule/index" target="_blank"><li>收费规则管理</li></a>
+                </ul>
+            </li>
+            <li>
+                <span>用户管理</span>
+                <ul>
+                    <a href="user/showCreditScore" target="_blank"><li>信誉分管理</li></a>
+                    <a href="user/showUser" target="_blank"><li>用户管理</li></a>
+                    <a href="recommend/show" target="_blank"><li>推荐管理</li></a>
+                </ul>
+            </li>
+            <li>
+                <span>运营管理</span>
+                <ul>
+                    <a href="operation/showFeedBack" target="_blank"><li>反馈管理</li></a>
+                    <a href="shareRecord/show" target="_blank"><li>分享记录管理</li></a>
+                    <a href="operation/showOperation" target="_blank"><li>操作日志管理</li></a>
+                </ul>
+            </li>
+            <li>
+                <span>微信管理</span>
+                <ul>
+                    <a href="wx/showWxToken" target="_blank"><li>平台token管理</li></a>
+                    <a href="wx/showWxUserToken" target="_blank"><li>用户token管理</li></a>
+                    <a href="wx/showWxFlow" target="_blank"><li>微信资金流水管理</li></a>
+                </ul>
+            </li>
+</body>
+</html>

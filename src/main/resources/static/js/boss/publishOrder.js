@@ -18,30 +18,36 @@ $(function () {
         singleSelect: true,
         columns: [[
             {field: 'id', title: 'ID', width: 40, align: 'center'},
-            {field: 'orderNo', title: 'orderNo', width: 120, align: 'center'},
-            {field: 'orderUserNo', title: 'orderUserNo', width: 120, align: 'center'},
-            {field: 'gameType', title: 'gameType', width: 120, align: 'center'},
-            {field: 'gameTypeStr', title: 'gameTypeStr', width: 120, align: 'center'},
-            {field: 'gameDistrict', title: 'gameDistrict', width: 120, align: 'center'},
-            {field: 'gameDistrictStr', title: 'gameDistrictStr', width: 120, align: 'center'},
-            {field: 'hopeFinishDate', title: 'hopeFinishDate', width: 120, align: 'center'},
-            {field: 'hopeFinishDay', title: 'hopeFinishDay', width: 120, align: 'center'},
-            {field: 'expireDate', title: 'expireDate', width: 120, align: 'center'},
-            {field: 'rewardAmount', title: 'rewardAmount', width: 120, align: 'center'},
-            {field: 'creditAmount', title: 'creditAmount', width: 120, align: 'center'},
-            {field: 'delayAmount', title: 'delayAmount', width: 120, align: 'center'},
-            {field: 'orderDesc', title: 'orderDesc', width: 120, align: 'center'},
-            {field: 'orderStatus', title: 'orderStatus', width: 120, align: 'center'},
-            {field: 'orderStatusStr', title: 'orderStatusStr', width: 120, align: 'center'},
-            {field: 'finishRemark', title: 'finishRemark', width: 120, align: 'center'},
-            {field: 'accountNo', title: 'accountNo', width: 120, align: 'center'},
-            {field: 'createdDate', title: 'Create Date', width: 240, align: 'center',
+            {field: 'orderNo', title: '发布单号', width: 120, align: 'center'},
+            {field: 'weigth', title: '重量', width: 120, align: 'center'},
+            {field: 'price', title: '金额', width: 120, align: 'center'},
+            {field: 'kdType', title: '快递类型', width: 120, align: 'center'},
+            {field: 'addressGet', title: '取货地址', width: 120, align: 'center'},
+            {field: 'scoNo', title: '取货凭证', width: 120, align: 'center'},
+            {field: 'addressServices', title: '送货地址', width: 120, align: 'center'},
+            {field: 'timeDelay', title: '有效期', width: 120, align: 'center',
                 formatter: function (value) {
+                    if (!value) {
+                        return "-";
+                    }
                     var newDate = new Date();
                     newDate.setTime(Date.parse(value) );
                     return newDate.toLocaleString();
                 }},
-            {field: 'modifiedDate', title: 'modify Date', width: 240, align: 'center',
+            {field: 'statusStr', title: '状态', width: 120, align: 'center'},
+            {field: 'cancelReason', title: '取消原因', width: 120, align: 'center'},
+            {field: 'wuliuNo', title: '物流单号', width: 120, align: 'center'},
+            {field: 'wuliuJson', title: '物流详情', width: 120, align: 'center'},
+            {field: 'createdDate', title: '创建时间', width: 240, align: 'center',
+                formatter: function (value) {
+                    if (!value) {
+                        return "-";
+                    }
+                    var newDate = new Date();
+                    newDate.setTime(Date.parse(value) );
+                    return newDate.toLocaleString();
+                }},
+            {field: 'modifiedDate', title: '修改时间', width: 240, align: 'center',
                 formatter: function (value) {
                     if (value) {
                         var newDate = new Date();
@@ -77,16 +83,7 @@ $(function () {
             condition: JSON.stringify(qparam)
         });
     });
-    $("#queryReal").click(function () {
-        var qparam = {};
-        $("#searchForm").serializeArray().map(function (x) {
-            qparam[x.name] = x.value == "" ? null : x.value;
-        });
-        qparam['blankUserNo']='xxx';
-        $('#MGrid').datagrid('reload', {
-            condition: JSON.stringify(qparam)
-        });
-    });
+
     $(".resetBtn").click(function () {
         $("#searchForm").form('clear');
         $("input[name='gameType']").val("");

@@ -82,9 +82,7 @@ public class PublishOrderBiz {
                         PublishOrderRes publishOrderRes1 = new PublishOrderRes();
                         BeanUtil.copyProperties(items, publishOrderRes1);
                         publishOrderRes1.setStatusStr(PublishOrderStatusEnum.getDescByCode(items.getStatus()));
-                        //                隐藏凭证
-                        publishOrderRes1.setScoNo("");
-                        publishOrderRes1.setPrice(feeRuleBiz.calcFee(publishOrderRes1.getPrice()));
+                        publishOrderRes1.setPrice(publishOrderRes1.getPrice());
                         publishOrderRes.add(publishOrderRes1);
                     });
                     pageResult.setData(publishOrderRes);

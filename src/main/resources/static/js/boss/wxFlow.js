@@ -25,13 +25,13 @@ $(function () {
             {field: 'attach', title: 'attach', width: 120, align: 'center'},
             {field: 'flowStatus', title: 'flowStatus', width: 120, align: 'center'},
             {field: 'flowStatusStr', title: 'flowStatusStr', width: 120, align: 'center'},
-            {field: 'createdDate', title: 'Create Date', width: 240, align: 'center',
+            {field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
                     var newDate = new Date();
                     newDate.setTime(Date.parse(value) );
                     return newDate.toLocaleString();
                 }},
-            {field: 'modifiedDate', title: 'modify Date', width: 240, align: 'center',
+            {field: 'modifiedDate', title: '修改时间', width: 240, align: 'center',
                 formatter: function (value) {
                     if (value) {
                         var newDate = new Date();

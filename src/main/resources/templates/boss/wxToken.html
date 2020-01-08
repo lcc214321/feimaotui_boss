@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>平台token管理页面</title>
+    <script type="text/javascript" th:src="@{/js/boss/wxToken.js}"></script>
+</head>
+<body>
+<div>
+    <div class='table-container'>
+        <table id='wxTokenMGrid'></table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>用户微信资金流水管理页面</title>
+    <script type="text/javascript" th:src="@{/js/boss/wxFlow.js}"></script>
+</head>
+<body>
+<div class="main">
+    <form id="searchForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    wxFlowNo:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="wxFlowNo"></input>
+                </td>
+                <td>
+                    orderNo:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="orderNo"></input>
+                </td>
+
+                <td>
+                    状态:
+                </td>
+                <td>
+                    <select class="easyui-combobox" name="flowStatus" id="flowStatus">
+                        <option value="" selected="selected">ALL</option>
+                        <option th:each="entry:${indexDescMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
+                    </select>
+                </td>
+
+
+            </tr>
+
+            <tr>
+                <td colspan="7">
+                </td>
+                <td class="right" style="width: auto" align="right">
+                    <a class="queryBtn l-btn">
+                        <span class="l-btn-text">查询</span>
+                    </a>
+                    <a class="resetBtn l-btn">
+                        <span class="l-btn-text">重置</span>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+
+</div>
+<div>
+    <div class='table-container'>
+        <table id='wxFlowMGrid'></table>
+    </div>
+</div>
+</body>
+</html>

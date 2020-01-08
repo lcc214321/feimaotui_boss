@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{::link},~{::script})">
+    <title>审核详情页</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/checkMD.css}"/>
+    <script type="application/javascript" src="/js/boss/checkMD.js"></script>
+</head>
+<body>
+<input th:value="${errorDesc}" type="hidden"/>
+<input th:value="${data.acceptOrderRes.acceptOrderNo}" id="accOrderNo" type="hidden"/>
+<div class="prolastCon ">
+    <table cellpadding="0" cellspacing="0" class="prolastTable prolastTable2" width="100%">
+        <tbody>
+        <tr>
+            <th width="33%">接单订单号</th>
+            <td th:text="${data.acceptOrderRes.acceptOrderNo}"></td>
+            <!--<td>王者荣耀 </td>-->
+        </tr>
+        <tr>
+            <th width="33%">接单人</th>
+            <td th:text="${data.acceptOrderRes.orderUserNo}"></td>
+        </tr>
+        <tr>
+            <th width="33%">发单号</th>
+            <td th:text="${data.acceptOrderRes.publishOrderNo}"></td>
+        </tr>
+        <tr>
+            <th width="33%">审核失败原因</th>
+            <td th:text="${data.acceptOrderRes.checkFailReason}"></td>
+        </tr>
+        <tr>
+            <th width="33%">接单状态</th>
+            <td th:text="${data.acceptOrderRes.orderStatusStr}"></td>
+        </tr>
+        <tr>
+            <th width="33%">接单时间</th>
+            <!--<td th:text="${#dates.format(data.acceptOrderRes.createdDate,'yyyy-MM-dd HH:mm:ss')}">2018-01-13 12:23:46-->
+            <td th:text=" ${data.acceptOrderRes.createdDate}?${#dates.format(data.acceptOrderRes.createdDate,'yyyy-MM-dd HH:mm:ss')}:''">
+                2018-01-13 12:23:46
+            </td>
+        </tr>
+        <tr>
+            <th width="33%">修改时间</th>
+
+            <td th:text=" ${data.acceptOrderRes.modifiedDate}?${#dates.format(data.acceptOrderRes.modifiedDate,'yyyy-MM-dd HH:mm:ss')}:''">
+                2018-01-13 12:23:46
+            </td>
+        </tr>
+        <tr>
+            <th width="33%">结单截图</th>
+            <td th:text="'/showFile?fileUrl='+${data.acceptOrderRes.fileUrl}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" class="prolastTable prolastTable2" width="100%">
+        <tbody>
+        <tr>
+            <th width="33%">订单号</th>
+            <td th:text="${data.publishOrderRes.orderNo}"></td>
+        </tr>
+        <tr>
+            <th width="33%">发布人编号</th>
+            <td th:text="${data.publishOrderRes.orderUserNo}"></td>
+        </tr>
+        <tr>
+            <th width="33%">游戏类型</th>
+            <td th:text="${data.publishOrderRes.gameTypeStr}">英雄联盟</td>
+        </tr>
+        <tr>
+            <th width="33%">游戏区域</th>
+            <td th:text="${data.publishOrderRes.gameDistrictStr}">战争学院</td>
+        </tr>
+        <tr>
+            <th width="33%">游戏账号</th>
+            <td th:text="${data.publishOrderRes.accountNo}">11321212221</td>
+        </tr>
+        <tr>
+            <th width="33%">赏金</th>
+            <td th:text="${data.publishOrderRes.rewardAmount}+'¥'">30¥</td>
+        </tr>
+        <tr>
+            <th width="33%">信任金</th>
+            <td th:text="${data.publishOrderRes.creditAmount}+'¥'">30¥</td>
+        </tr>
+        <tr>
+            <th width="33%">逾期金</th>
+            <td th:text="${data.publishOrderRes.delayAmount}+'¥'">30¥</td>
+        </tr>
+        <tr>
+            <th width="33%">发布时间</th>
+            <td th:text=" ${data.publishOrderRes.createdDate}?${#dates.format(data.publishOrderRes.createdDate,'yyyy-MM-dd HH:mm:ss')}:''">
+                2018-01-13 12:23:46
+            </td>
+            <!--<td th:text="${#dates.format(data.publishOrderRes.createdDate,'yyyy-MM-dd HH:mm:ss')}">2018-01-13 12:23:46-->
+        </tr>
+        <tr>
+            <th width="33%">截止周期</th>
+            <td th:text="${data.publishOrderRes.hopeFinishDay}+' 天'"></td>
+        </tr>
+        <tr>
+            <th width="33%">截止日期</th>
+            <td th:text=" ${data.publishOrderRes.hopeFinishDate}?${#dates.format(data.publishOrderRes.hopeFinishDate,'yyyy-MM-dd HH:mm:ss')}:''">
+                2018-01-13 12:23:46
+            </td>
+            <!--<td th:text="${#dates.format(data.publishOrderRes.hopeFinishDate,'yyyy-MM-dd HH:mm:ss')}">2018-01-13 12:23:46</td>-->
+        </tr>
+        <tr>
+            <th width="33%">发布单结束 图片url串</th>
+            <td th:text="${data.publishOrderRes.fileUrl}"></td>
+        </tr>
+        <tr>
+            <th width="33%">发布订单状态</th>
+            <td th:text="${data.publishOrderRes.orderStatusStr}"></td>
+        </tr>
+        <tr>
+            <th width="33%">版本</th>
+            <td th:text="${data.publishOrderRes.version}"></td>
+        </tr>
+        <tr>
+            <th width="33%">账号</th>
+            <td th:text="${data.publishOrderRes.accountNo}"></td>
+        </tr>
+        <tr>
+            <th width="33%">账号密码</th>
+            <td th:text="${data.accountPwd}"></td>
+        </tr>
+        <tr>
+            <th width="33%">任务描述</th>
+            <td th:text="${data.publishOrderRes.orderDesc}">2丹江口市大家福利就是到了房间爱上砥砺奋进拉丝机斐林试剂洒到了房间里撒大家时间的浪费的时间</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${data.acceptOrderRes.orderStatus==2}">
+<p>结单失败截图</p>
+<div th:each="data:${urls}">
+    <img class="cdt6" th:src="'/showFile?fileUrl='+${data}" />
+</div>
+</div>
+<div th:if="${data.acceptOrderRes.orderStatus==1}">
+    <input type="radio" name="checkType" checked="checked" value="checkSucc">审核通过</input>
+    <input type="radio" name="checkType" value="checkFail">审核失败</input>
+</div>
+<div th:if="${data.acceptOrderRes.orderStatus==4}">
+    <input type="radio" name="checkType" checked="checked"  value="delaySucc">逾期通过</input>
+</div>
+<div id="passDiv" style="display: block;" th:if="${data.acceptOrderRes.orderStatus==1} or ${data.acceptOrderRes.orderStatus==4}">
+    <span>违约情况</span>
+    <select class="easyui-combobox" id="credit_radio">
+        <!--<option value="" selected="selected">ALL</option>-->
+        <option th:each="entry:${indexDescMap.entrySet()}" th:value="${entry.getKey()}"><p
+                th:text="${entry.getValue()}"/>
+        </option>
+    </select>
+    <div th:if="${data.acceptOrderRes.orderStatus==1}" id="creditSub" style="">
+    <label>扣除信誉分：</label><input type="number" id="changeScore"/><br/>
+    </div>
+    <div>
+    <button onclick="pass()" th:if="${data.acceptOrderRes.orderStatus==1}">确认通过</button>
+    <button onclick="confirm()" th:if="${data.acceptOrderRes.orderStatus==4}">逾期结算</button>
+    </div>
+</div>
+<div id="rejectDiv" style="display: none;">
+    <div>
+        <form enctype="multipart/form-data" id="checkFailForm" action="checkFail" method="post">
+            <label>接单订单号</label> <input readonly="readonly" name="accOrderNo"
+                                        th:value="${data.acceptOrderRes.acceptOrderNo}"/>
+            <label>失败原因</label> <textarea name="failReason"></textarea>
+            <label>失败截图</label>
+            <div id="fileList">
+                <input type="file" name="file"/>
+            </div>
+        </form>
+        <a style="color: orange;" onclick="addMoreFile()">点击再加一个上传位置</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a style="color: orange;" onclick="removeMoreFile()">点击删除一个上传位置</a>
+    </div>
+    <button onclick="reject()" th:if="${data.acceptOrderRes.orderStatus==1}">确认拒绝</button>
+</div>
+</body>
+</html>

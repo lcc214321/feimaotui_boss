@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>评分管理页面</title>
+    <script type="text/javascript" th:src="@{/js/boss/gradeRecordManage.js}"></script>
+</head>
+<body>
+<div class="main">
+    <form id="searchForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    用户编号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="userNo"></input>
+                </td>
+                <td>
+                    受评分用户编号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="targetUserNo"></input>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="7">
+                </td>
+                <td class="right" style="width: auto" align="right">
+                    <a class="queryBtn l-btn">
+                        <span class="l-btn-text">查询</span>
+                    </a>
+                    <a class="resetBtn l-btn">
+                        <span class="l-btn-text">重置</span>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+
+</div>
+<div>
+    <div class='table-container'>
+        <table id='MGrid'></table>
+    </div>
+</div>
+</body>
+</html>

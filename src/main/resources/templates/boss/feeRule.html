@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>手续费管理</title>
+    <script type="application/javascript" th:src="@{/js/boss/feeRule.js}"></script>
+</head>
+<body>
+<div class="main">
+    <form id="searchForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    收费规则类型:
+                </td>
+                <td>
+                    <select class="easyui-combobox" name="ruleType" >
+                        <option value="" selected="selected">ALL</option>
+                        <option th:each="entry:${ruleTypeMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
+                    </select>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    收费计算类型:
+                </td>
+                <td>
+                    <select class="easyui-combobox" name="feeType" >
+                        <option value="" selected="selected">ALL</option>
+                        <option th:each="entry:${feeTypeMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
+                    </select>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="7">
+                </td>
+                <td class="right" style="width: auto" align="right">
+                    <a class="queryBtn l-btn">
+                        <span class="l-btn-text">查询</span>
+                    </a>
+                    <a class="resetBtn l-btn">
+                        <span class="l-btn-text">重置</span>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+
+</div>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="addMore()">ADD</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDetail()">Edit</a>
+</div>
+
+<div>
+    <div class='table-container'>
+        <table id='feeRuleMGrid'></table>
+    </div>
+</div>
+
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" style="margin:0;padding:20px 50px">
+        <!--<div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">调整发布单逾期时间</div>-->
+        <input type="hidden" name="version"/>
+        <div style="margin-bottom:10px;">
+            <input name="id" readonly="readonly" class="easyui-textbox"  label="id"
+                   style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <label>收费规则类型</label>&nbsp;&nbsp;&nbsp;
+            <select class="easyui-combobox" name="ruleType" id="ruleType">
+                <!--<option value="" selected="selected">ALL</option>-->
+                <option th:each="entry:${ruleTypeMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
+            </select>
+        </div>
+        <div style="margin-bottom:10px">
+            <label>收费计算类型</label>&nbsp;&nbsp;&nbsp;
+            <select class="easyui-combobox" name="feeType" id="feeType">
+                <!--<option value="" selected="selected">ALL</option>-->
+                <option th:each="entry:${feeTypeMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
+            </select>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="feeThresholdValue" class="easyui-textbox" required="true" label="阈值" style="width:100%"/>
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="feeValue" class="easyui-textbox" required="true" label="阈值对应的满减或打折值" style="width:100%"/>
+        </div>
+        <div id="dlg-buttons">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save()"
+               style="width:90px">Save</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+               onclick="cancel('dlg')" style="width:90px">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

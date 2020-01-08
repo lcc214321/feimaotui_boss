@@ -69,7 +69,7 @@ public class ApproveBiz {
                     for (Approve item : approves) {
                         ApproveRes approveRes1 = new ApproveRes();
                         BeanUtil.copyProperties(item, approveRes1);
-                        approveRes1.setStatus(ApproveStatusEnum.getDescByCode(item.getStatus()));
+                        approveRes1.setRealStatusStr(ApproveStatusEnum.getDescByCode(item.getStatus()));
                         approveRes.add(approveRes1);
                     }
                     pageResult.setData(approveRes);

@@ -24,7 +24,7 @@ $(function () {
             {field: 'operType', title: 'operType', width: 120, align: 'center'},
             {field: 'operTypeStr', title: 'operTypeStr', width: 120, align: 'center'},
             {field: 'remark', title: 'remark', width: 120, align: 'center'},
-            {field: 'createdDate', title: 'Create Date', width: 240, align: 'center',
+            {field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
                     var newDate = new Date();
                     newDate.setTime(Date.parse(value) );
