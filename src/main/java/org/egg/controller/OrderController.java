@@ -160,6 +160,7 @@ public class OrderController {
         if (!baseResult.isSuccess()) {
             result.setRespCode(baseResult.getCode());
             result.setRespDesc(baseResult.getDesc());
+            baseResult.setSuccess(false);
         }
         return result;
     }

@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.egg.enums.BossUserLevelEnum;
 import org.egg.model.DO.BossUser;
 import org.egg.utils.ConstantsUtil;
-import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ import java.io.IOException;
  * @Description
  * @date: 2019/12/16 11:26
  */
-@Configuration
+//@Configuration
 @Slf4j
 public class AuthCheckFilter implements Filter {
     private final String[] LEVEL_ONE_URL = {"/boss/approveM/*"};
