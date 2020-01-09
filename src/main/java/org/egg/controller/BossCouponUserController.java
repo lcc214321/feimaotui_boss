@@ -40,7 +40,7 @@ public class BossCouponUserController {
     @RequestMapping("/showCouponUserM")
     public String showCouponUserM(Model model) {
 
-        return "boss/couponUserM";
+        return "boss/couponUser";
     }
 
     @RequestMapping("/queryList")

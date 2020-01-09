@@ -16,6 +16,8 @@ public class Coupon {
 
     private String giftFlag;
 
+    private Integer expireNum;
+
     private Date createdDate;
 
     private Date modifiedDate;
@@ -66,6 +68,14 @@ public class Coupon {
 
     public void setGiftFlag(String giftFlag) {
         this.giftFlag = giftFlag == null ? null : giftFlag.trim();
+    }
+
+    public Integer getExpireNum() {
+        return expireNum;
+    }
+
+    public void setExpireNum(Integer expireNum) {
+        this.expireNum = expireNum;
     }
 
     public Date getCreatedDate() {

@@ -85,6 +85,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <if test="start!=null">
+      limit #{start},#{end}
+    </if>
   </select>
   <delete id="deleteByExample" parameterType="org.egg.model.DO.UserHistoryAddressExample" >
     delete from user_history_address

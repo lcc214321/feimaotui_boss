@@ -48,6 +48,9 @@ public class CouponServiceImpl {
     public void convert(CouponQueryReq example, CouponExample couponExample) {
         CouponExample.Criteria criteria = couponExample.createCriteria();
 
+        if (example.getId() != null) {
+            criteria.andIdEqualTo(example.getId());
+        }
         if (example.getCreatedDate() != null) {
             criteria.andCreatedDateEqualTo(example.getCreatedDate());
         }

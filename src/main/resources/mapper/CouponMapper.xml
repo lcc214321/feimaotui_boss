@@ -8,6 +8,7 @@
     <result column="value" jdbcType="DECIMAL" property="value" />
     <result column="max_value" jdbcType="VARCHAR" property="maxValue" />
     <result column="gift_flag" jdbcType="VARCHAR" property="giftFlag" />
+    <result column="expire_num" jdbcType="INTEGER" property="expireNum" />
     <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
     <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" />
   </resultMap>
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, coupon_type, threshold_value, value, max_value, gift_flag, created_date, modified_date
+    id, coupon_type, threshold_value, value, max_value, gift_flag, expire_num, created_date,
+    modified_date
   </sql>
   <select id="selectByExample" parameterType="org.egg.model.DO.CouponExample" resultMap="BaseResultMap">
     select
@@ -86,6 +88,9 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+    <if test="start!=null">
+      limit #{start},#{end}
+    </if>
   </select>
   <delete id="deleteByExample" parameterType="org.egg.model.DO.CouponExample">
     delete from coupon
@@ -97,12 +102,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into coupon (coupon_type, threshold_value, value, 
-      max_value, gift_flag, created_date, 
-      modified_date)
-    values (#{couponType,jdbcType=VARCHAR}, #{thresholdValue,jdbcType=DECIMAL}, #{value,jdbcType=DECIMAL}, 
-      #{maxValue,jdbcType=VARCHAR}, #{giftFlag,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, 
-      #{modifiedDate,jdbcType=TIMESTAMP})
+    insert into coupon (coupon_type, threshold_value, value,
+    max_value, gift_flag, expire_num,
+    created_date, modified_date)
+    values (#{couponType,jdbcType=VARCHAR}, #{thresholdValue,jdbcType=DECIMAL}, #{value,jdbcType=DECIMAL},
+    #{maxValue,jdbcType=VARCHAR}, #{giftFlag,jdbcType=VARCHAR}, #{expireNum,jdbcType=INTEGER},
+    #{createdDate,jdbcType=TIMESTAMP}, #{modifiedDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="org.egg.model.DO.Coupon">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -124,6 +129,9 @@
       </if>
       <if test="giftFlag != null">
         gift_flag,
+      </if>
+      <if test="expireNum != null">
+        expire_num,
       </if>
       <if test="createdDate != null">
         created_date,
@@ -147,6 +155,9 @@
       </if>
       <if test="giftFlag != null">
         #{giftFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="expireNum != null">
+        #{expireNum,jdbcType=INTEGER},
       </if>
       <if test="createdDate != null">
         #{createdDate,jdbcType=TIMESTAMP},
@@ -183,6 +194,9 @@
       <if test="record.giftFlag != null">
         gift_flag = #{record.giftFlag,jdbcType=VARCHAR},
       </if>
+      <if test="record.expireNum != null">
+        expire_num = #{record.expireNum,jdbcType=INTEGER},
+      </if>
       <if test="record.createdDate != null">
         created_date = #{record.createdDate,jdbcType=TIMESTAMP},
       </if>
@@ -197,13 +211,14 @@
   <update id="updateByExample" parameterType="map">
     update coupon
     set id = #{record.id,jdbcType=BIGINT},
-      coupon_type = #{record.couponType,jdbcType=VARCHAR},
-      threshold_value = #{record.thresholdValue,jdbcType=DECIMAL},
-      value = #{record.value,jdbcType=DECIMAL},
-      max_value = #{record.maxValue,jdbcType=VARCHAR},
-      gift_flag = #{record.giftFlag,jdbcType=VARCHAR},
-      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
-      modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP}
+    coupon_type = #{record.couponType,jdbcType=VARCHAR},
+    threshold_value = #{record.thresholdValue,jdbcType=DECIMAL},
+    value = #{record.value,jdbcType=DECIMAL},
+    max_value = #{record.maxValue,jdbcType=VARCHAR},
+    gift_flag = #{record.giftFlag,jdbcType=VARCHAR},
+    expire_num = #{record.expireNum,jdbcType=INTEGER},
+    created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+    modified_date = #{record.modifiedDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

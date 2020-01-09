@@ -13,27 +13,25 @@
     <sql id="Example_Where_Clause">
         <foreach collection="oredCriteria" item="criteria" separator="or">
             <if test="criteria.valid">
-                <trim prefix="(" suffix=")" prefixOverrides="and">
-                    <foreach collection="criteria.criteria" item="criterion">
-                        <choose>
-                            <when test="criterion.noValue">
-                                and ${criterion.condition}
-                            </when>
-                            <when test="criterion.singleValue">
-                                and ${criterion.condition} #{criterion.value}
-                            </when>
-                            <when test="criterion.betweenValue">
-                                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                            </when>
-                            <when test="criterion.listValue">
-                                and ${criterion.condition}
-                                <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
-                                    #{listItem}
-                                </foreach>
-                            </when>
-                        </choose>
-                    </foreach>
-                </trim>
+                <foreach collection="criteria.criteria" item="criterion">
+                    <choose>
+                        <when test="criterion.noValue">
+                            and ${criterion.condition}
+                        </when>
+                        <when test="criterion.singleValue">
+                            and ${criterion.condition} #{criterion.value}
+                        </when>
+                        <when test="criterion.betweenValue">
+                            and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                        </when>
+                        <when test="criterion.listValue">
+                            and ${criterion.condition}
+                            <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+                                #{listItem}
+                            </foreach>
+                        </when>
+                    </choose>
+                </foreach>
             </if>
         </foreach>
     </sql>
@@ -41,13 +39,20 @@
         UPDATE coupon_user set status=2
         where status=1 and expire_date <![CDATA[<]]> now()
     </update>
-    <select id="queryList" resultType="org.egg.model.VO.CouponRes"
+    <select id="queryList" resultType="org.egg.model.VO.CouponUserRes"
             parameterType="org.egg.model.VO.CouponUserQueryReq">
         SELECT t1.*,t2.coupon_type,t2.threshold_value, t2.value, t2.max_value, t2.gift_flag FROM coupon_user t1,coupon
         t2
-        where t1.coupon_id=t2.id
+        where
+        t1.coupon_id=t2.id
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="start!=null">
+            limit #{start},#{end}
         </if>
     </select>
 </mapper>

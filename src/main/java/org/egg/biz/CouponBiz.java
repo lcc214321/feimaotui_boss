@@ -1,7 +1,6 @@
 package org.egg.biz;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.egg.enums.CouponTypeEnum;
 import org.egg.model.DO.Coupon;
 import org.egg.model.VO.CouponQueryReq;
@@ -43,11 +42,6 @@ public class CouponBiz {
             @Override
             public void doCheck() {
                 CheckUtil.isNotNull("couponQueryReq", couponQueryReq);
-                if (couponQueryReq.getPageNum() == null) {
-                    //默认每页数
-                    couponQueryReq.setPageNum(StringUtils.isBlank(PAGE_NUM) ?
-                            100 : Integer.valueOf(PAGE_NUM));
-                }
             }
 
             @Override
@@ -66,7 +60,7 @@ public class CouponBiz {
                         couponRes1.setCouponTypeStr(CouponTypeEnum.getDescByCode(m.getCouponType()));
                         return couponRes1;
                     }).collect(Collectors.toList());
-                    result.setData(couponRes);
+                    result.setData(collect);
                 }
             }
         });

@@ -15,11 +15,13 @@ public enum CouponTypeEnum {
     ;
     private static final Map<String, CouponTypeEnum> codeMap = new HashMap<>();
     private static final Map<Integer, String> indexDescMap = new HashMap<>();
+    private static final Map<String, String> codeDescMap = new HashMap<>();
 
     static {
         for (CouponTypeEnum items : CouponTypeEnum.values()) {
             codeMap.put(items.getCode(), items);
             indexDescMap.put(items.getIndex(), items.getDesc());
+            codeDescMap.put(items.getCode(), items.getDesc());
         }
     }
 
@@ -57,5 +59,9 @@ public enum CouponTypeEnum {
 
     public static Map<String, CouponTypeEnum> getCodeMap() {
         return codeMap;
+    }
+
+    public static Map<String, String> getCodeDescMap() {
+        return codeDescMap;
     }
 }

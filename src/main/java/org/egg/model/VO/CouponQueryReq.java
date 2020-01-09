@@ -84,10 +84,18 @@ public class CouponQueryReq extends Coupon {
     }
 
     public Integer getFirst() {
-        return (pageNo==null||pageNum==null)?null:(pageNo-1)*pageNum;
+        return first;
+    }
+
+    public void setFirst(Integer first) {
+        this.first = first;
     }
 
     public Integer getEnd() {
-        return pageNum;
+        return end;
+    }
+
+    public void setEnd(Integer end) {
+        this.end = end;
     }
 }

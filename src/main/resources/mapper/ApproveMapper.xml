@@ -93,6 +93,9 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+    <if test="start!=null">
+      limit #{start},#{end}
+    </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 'true' as QUERYID,
