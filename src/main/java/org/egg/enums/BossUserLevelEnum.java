@@ -9,8 +9,8 @@ import java.util.Map;
  * @date: 2019/12/16 15:02
  */
 public enum  BossUserLevelEnum {
-    LEVEL_ONE("LEVEL_ONE","一级用户","LEVEL_ONE_URL"),
-    LEVEL_TWO("LEVEL_TWO","二级用户","LEVEL_TWO_URL"),
+    LEVEL_ONE("LEVEL_ONE","普通员工","LEVEL_ONE_URL"),
+    LEVEL_TWO("LEVEL_TWO","经理","LEVEL_TWO_URL"),
     BOSS("BOSS","BOSS","LEVEL_TWO_URL"),
     ;
 

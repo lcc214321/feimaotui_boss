@@ -2,7 +2,7 @@ package org.egg.biz;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.egg.enums.BossUserLevelEnum;
 import org.egg.enums.BossUserStatusEnum;
 import org.egg.enums.CommonErrorEnum;
 import org.egg.exception.CommonException;
@@ -17,6 +17,7 @@ import org.egg.template.BizTemplate;
 import org.egg.template.TemplateCallBack;
 import org.egg.utils.CheckUtil;
 import org.egg.utils.ConstantsUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -84,11 +85,6 @@ public class BossUserBiz {
             @Override
             public void doCheck() {
                 CheckUtil.isNotNull("bossUserQueryReq", bossUserQueryReq);
-                if (bossUserQueryReq.getPageNum() == null) {
-                    //默认每页数
-                    bossUserQueryReq.setPageNum(StringUtils.isBlank(PAGE_NUM) ?
-                            100 : Integer.valueOf(PAGE_NUM));
-                }
             }
 
             @Override
@@ -103,7 +99,9 @@ public class BossUserBiz {
                     ArrayList<BossUserRes> bossUserRes = new ArrayList<>();
                     bossUsers.forEach(item -> {
                         BossUserRes bossUserRes1 = new BossUserRes();
+                        BeanUtils.copyProperties(item,bossUserRes1);
                         bossUserRes1.setUserStatusStr(BossUserStatusEnum.getDescByCode(item.getStatus()));
+                        bossUserRes1.setLevelStr(BossUserLevelEnum.getCodeDescMap().get(item.getLevel()));
                         bossUserRes.add(bossUserRes1);
                     });
                     pageResult.setData(bossUserRes);
@@ -114,13 +112,12 @@ public class BossUserBiz {
         return pageResult;
     }
 
-    public BaseResult updateStatus(BossUser bossUser) {
+    public BaseResult modifyBossUser(BossUser bossUser) {
         BaseResult result = new BaseResult();
         bizTemplate.process(result, new TemplateCallBack() {
             @Override
             public void doCheck() {
                 CheckUtil.isNotNull("bossUser.id", bossUser.getId());
-                CheckUtil.isNotNull("bossUser.status", bossUser.getStatus());
             }
 
             @Override
@@ -131,7 +128,7 @@ public class BossUserBiz {
         return result;
     }
 
-    public BaseResult restPwd(String userNo) {
+    public BaseResult switchStatus(String loginName, String status) {
         BaseResult result = new BaseResult();
         bizTemplate.process(result, new TemplateCallBack() {
             @Override
@@ -141,7 +138,53 @@ public class BossUserBiz {
             @Override
             public void doAction() {
                 BossUserQueryReq bossUserQueryReq = new BossUserQueryReq();
-                bossUserQueryReq.setBossUserNo(userNo);
+                bossUserQueryReq.setLoginName(loginName);
+                List<BossUser> bossUsers = bossUserService.queryList(bossUserQueryReq);
+                if (CollectionUtils.isEmpty(bossUsers)) {
+                    throw new CommonException(CommonErrorEnum.PARAM_ERROR);
+                }
+                BossUser bossUser = bossUsers.get(0);
+                bossUser.setStatus(status);
+                bossUserService.update(bossUser);
+            }
+        });
+        return result;
+    }
+
+    public BaseResult delete(String loginName) {
+        BaseResult result = new BaseResult();
+        bizTemplate.process(result, new TemplateCallBack() {
+            @Override
+            public void doCheck() {
+            }
+
+            @Override
+            public void doAction() {
+                BossUserQueryReq bossUserQueryReq = new BossUserQueryReq();
+                bossUserQueryReq.setLoginName(loginName);
+                List<BossUser> bossUsers = bossUserService.queryList(bossUserQueryReq);
+                if (CollectionUtils.isEmpty(bossUsers)) {
+                    throw new CommonException(CommonErrorEnum.PARAM_ERROR);
+                }
+                BossUser bossUser = bossUsers.get(0);
+                bossUser.setStatus(BossUserStatusEnum.CANCEL.getCode());
+                bossUserService.update(bossUser);
+            }
+        });
+        return result;
+    }
+
+    public BaseResult restPwd(String loginName) {
+        BaseResult result = new BaseResult();
+        bizTemplate.process(result, new TemplateCallBack() {
+            @Override
+            public void doCheck() {
+            }
+
+            @Override
+            public void doAction() {
+                BossUserQueryReq bossUserQueryReq = new BossUserQueryReq();
+                bossUserQueryReq.setLoginName(loginName);
                 List<BossUser> bossUsers = bossUserService.queryList(bossUserQueryReq);
                 if (CollectionUtils.isEmpty(bossUsers)) {
                     throw new CommonException(CommonErrorEnum.PARAM_ERROR);
@@ -164,7 +207,7 @@ public class BossUserBiz {
             @Override
             public void doAction() {
                 BossUserQueryReq bossUserQueryReq = new BossUserQueryReq();
-                bossUserQueryReq.setBossUserNo(bossUser.getLoginName());
+                bossUserQueryReq.setLoginName(bossUser.getLoginName());
                 List<BossUser> bossUsers = bossUserService.queryList(bossUserQueryReq);
                 if (!CollectionUtils.isEmpty(bossUsers)) {
                     throw new CommonException("用戶名已存在");
@@ -175,7 +218,7 @@ public class BossUserBiz {
         return result;
     }
 
-    public BaseResult modifyPwd(String userNo, String oldPwd, String newPwd,HttpServletRequest request) {
+    public BaseResult modifyPwd(String userNo, String oldPwd, String newPwd, HttpServletRequest request) {
         BaseResult result = new BaseResult();
         bizTemplate.process(result, new TemplateCallBack() {
             @Override

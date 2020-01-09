@@ -132,23 +132,16 @@ public class BossController extends BossBaseController {
 
     @RequestMapping("/queryList")
     @ResponseBody
-    public Map<String, Object> userQueryList(HttpServletRequest request) {
+    public Map<String, Object> userQueryList(HttpServletRequest request, BossUserQueryReq queryReq) {
         Map<String, Object> resultMap = new HashMap<>();
         try {
-            String condition = request.getParameter("condition");
-            String pageStr = request.getParameter("page");
-            String rowsStr = request.getParameter("rows");
-            LOGGER.info("#userQueryList#查询记录开始,查询参数:condition={},page={},rows={}", JSON.toJSONString(condition), pageStr, rowsStr);
-            BossUserQueryReq queryReq = JSON.parseObject(condition, BossUserQueryReq.class);
-            queryReq.setPageNo(Integer.valueOf(pageStr));
-            queryReq.setPageNum(Integer.valueOf(rowsStr));
             PageResult pageResult = bossUserBiz.queryList(queryReq);
             if (pageResult.isSuccess()) {
                 List<BossUserRes> rows = new ArrayList<>();
                 if (CollectionUtils.isEmpty(pageResult.getData())) {
-                    LOGGER.info("#userQueryList#查询记录成功,查询参数:condition={},size=0", JSON.toJSONString(condition));
+                    LOGGER.info("#userQueryList#查询记录成功,查询参数:queryReq={},size=0", JSON.toJSONString(queryReq));
                 } else {
-                    LOGGER.info("#userQueryList#查询记录成功,查询参数:condition={},size={}", JSON.toJSONString(condition), rows.size());
+                    LOGGER.info("#userQueryList#查询记录成功,查询参数:queryReq={},size={}", JSON.toJSONString(queryReq), rows.size());
                     rows = pageResult.getData();
                 }
                 resultMap.put("total", pageResult.getTotal());
@@ -161,11 +154,27 @@ public class BossController extends BossBaseController {
         return resultMap;
     }
 
-    @RequestMapping("/updateStatus")
+    @RequestMapping("/modifyBossUser")
     @ResponseBody
-    public BaseResult updateStatus(BossUser user) {
+    public BaseResult modifyBossUser(BossUser user) {
         LOGGER.info("updateStatus user={}", user);
-        BaseResult result = bossUserBiz.updateStatus(user);
+        BaseResult result = bossUserBiz.modifyBossUser(user);
+        return result;
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public BaseResult delete(String loginName) {
+        LOGGER.info("delete loginName={}", loginName);
+        BaseResult result = bossUserBiz.delete(loginName);
+        return result;
+    }
+
+    @RequestMapping("/switchStatus")
+    @ResponseBody
+    public BaseResult switchStatus(String loginName, String status) {
+        LOGGER.info("switchStatus loginName={},status={}", loginName, status);
+        BaseResult result = bossUserBiz.switchStatus(loginName, status);
         return result;
     }
 
@@ -179,9 +188,9 @@ public class BossController extends BossBaseController {
 
     @RequestMapping("/resetPwd")
     @ResponseBody
-    public BaseResult resetPwd(String userNo) {
-        LOGGER.info("resetPwd userNo={}", userNo);
-        BaseResult result = bossUserBiz.restPwd(userNo);
+    public BaseResult resetPwd(String loginName) {
+        LOGGER.info("resetPwd loginName={}", loginName);
+        BaseResult result = bossUserBiz.restPwd(loginName);
         return result;
     }
 

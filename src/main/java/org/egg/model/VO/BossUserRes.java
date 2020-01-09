@@ -7,7 +7,15 @@ import org.egg.model.DO.BossUser;
  */
 public class BossUserRes extends BossUser {
     private String userStatusStr;
+    private String levelStr;
 
+    public String getLevelStr() {
+        return levelStr;
+    }
+
+    public void setLevelStr(String levelStr) {
+        this.levelStr = levelStr;
+    }
 
     public String getUserStatusStr() {
         return userStatusStr;
