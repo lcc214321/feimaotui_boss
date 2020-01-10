@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>用户历史地址管理页面</title>
+    <script type="text/javascript" th:src="@{/js/boss/userHistoryAddress.js}"></script>
+</head>
+<body>
+<div class="main">
+    <form id="searchForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    用户编号:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="userNo"></input>
+                </td>
+                <td>
+                    地址类型:
+                </td>
+                <td>
+                    <select class="easyui-combobox" name="adressType" id="adressType">
+                        <option value="" selected="selected">ALL</option>
+                        <option th:each="entry:${codeDescMap.entrySet()}" th:value="${entry.getKey()}"><p
+                                th:text="${entry.getValue()}"/></option>
+                    </select>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="7">
+                </td>
+                <td class="right" style="width: auto" align="right">
+                    <a class="queryBtn l-btn">
+                        <span class="l-btn-text">查询</span>
+                    </a>
+                    <a class="resetBtn l-btn">
+                        <span class="l-btn-text">重置</span>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
+
+</div>
+<div>
+    <div class='table-container'>
+        <table id='MGrid'></table>
+    </div>
+</div>
+</body>
+</html>

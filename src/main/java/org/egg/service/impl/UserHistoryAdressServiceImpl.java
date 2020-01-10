@@ -1,6 +1,7 @@
 package org.egg.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.egg.mapper.UserHistoryAddressMapper;
 import org.egg.model.DO.UserHistoryAddress;
 import org.egg.model.DO.UserHistoryAddressExample;
@@ -36,6 +37,9 @@ public class UserHistoryAdressServiceImpl {
 
     private void convert(UserHistoryAddressQuery example, UserHistoryAddressExample userHistoryAddressExample) {
         UserHistoryAddressExample.Criteria criteria = userHistoryAddressExample.createCriteria();
+        if (StringUtils.isNotBlank(example.getAdressType())) {
+            criteria.andAdressTypeEqualTo(example.getAdressType());
+        }
         if (example.getCreatedDate() != null) {
             criteria.andCreatedDateEqualTo(example.getCreatedDate());
         }
@@ -49,6 +53,6 @@ public class UserHistoryAdressServiceImpl {
             userHistoryAddressExample.setStart(example.getFirst());
             userHistoryAddressExample.setEnd(example.getEnd());
         }
-        userHistoryAddressExample.setOrderByClause("createdDate desc");
+        userHistoryAddressExample.setOrderByClause("created_date desc");
     }
 }

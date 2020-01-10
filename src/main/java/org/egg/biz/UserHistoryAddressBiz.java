@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.egg.model.DO.UserHistoryAddress;
 import org.egg.model.VO.UserHistoryAddressQuery;
-import org.egg.response.CommonSingleResult;
+import org.egg.response.PageResult;
 import org.egg.service.impl.UserHistoryAdressServiceImpl;
 import org.egg.template.BizTemplate;
 import org.egg.template.TemplateCallBack;
@@ -13,7 +13,6 @@ import org.egg.utils.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -29,15 +28,13 @@ public class UserHistoryAddressBiz {
     private UserHistoryAdressServiceImpl userHistoryAdressService;
     @Autowired
     private BizTemplate bizTemplate;
-    @Value("publish.expire.date")
-    private String PUBLISH_EXPIRE_DATE;
     @Value("page.num")
     private String PAGE_NUM;
 
-    public CommonSingleResult<UserHistoryAddress> queryLastOne4Get(UserHistoryAddressQuery userHistoryAddressQuery) {
-        CommonSingleResult<UserHistoryAddress> userHistoryAddressCommonSingleResult = new CommonSingleResult<>();
+    public PageResult queryList(UserHistoryAddressQuery userHistoryAddressQuery) {
+        PageResult result = new PageResult();
         log.info("userHistoryAddressQuery={}", JSONObject.toJSONString(userHistoryAddressQuery));
-        bizTemplate.process(userHistoryAddressCommonSingleResult, new TemplateCallBack() {
+        bizTemplate.process(result, new TemplateCallBack() {
             @Override
             public void doCheck() {
                 CheckUtil.isNotNull("userHistoryAddressQuery", userHistoryAddressQuery);
@@ -51,13 +48,11 @@ public class UserHistoryAddressBiz {
             @Override
             public void doAction() {
                 List<UserHistoryAddress> userHistoryAddresses = userHistoryAdressService.queryList(userHistoryAddressQuery);
-                if (!CollectionUtils.isEmpty(userHistoryAddresses)) {
-                    userHistoryAddressCommonSingleResult.setData(userHistoryAddresses.get(0));
-                }
+                result.setData(userHistoryAddresses);
 
             }
         });
-        log.info("userHistoryAddressCommonSingleResult={}", JSONObject.toJSONString(userHistoryAddressCommonSingleResult));
-        return userHistoryAddressCommonSingleResult;
+        log.info("userHistoryAddressCommonSingleResult={}", JSONObject.toJSONString(result));
+        return result;
     }
 }
