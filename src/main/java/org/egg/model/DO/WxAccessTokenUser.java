@@ -8,6 +8,7 @@ public class WxAccessTokenUser {
     private String accessToken;
 
     private String userNo;
+    private String sessionKey;
 
     private Integer expiresIn;
 
@@ -71,5 +72,13 @@ public class WxAccessTokenUser {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public String getSessionKey() {
+        return sessionKey;
+    }
+
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
     }
 }

@@ -6,22 +6,26 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="access_token" jdbcType="VARCHAR" property="accessToken" />
     <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+    <result column="session_key" jdbcType="VARCHAR" property="sessionKey" />
     <result column="expires_in" jdbcType="INTEGER" property="expiresIn" />
     <result column="refresh_token" jdbcType="VARCHAR" property="refreshToken" />
     <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
     <result column="modified_date" jdbcType="TIMESTAMP" property="modifiedDate" /></resultMap>
   <sql id="WhereQueryEntity">
     <if test="accessToken != null">
-       AND access_token = #{accessToken,jdbcType=VARCHAR}
+      AND access_token = #{accessToken,jdbcType=VARCHAR}
     </if>
     <if test="userNo != null">
-       AND user_no = #{userNo,jdbcType=VARCHAR}
+      AND user_no = #{userNo,jdbcType=VARCHAR}
+    </if>
+    <if test="sessionKey != null">
+      AND session_key = #{sessionKey,jdbcType=VARCHAR}
     </if>
     <if test="expiresIn != null">
-       AND expires_in = #{expiresIn,jdbcType=INTEGER}
+      AND expires_in = #{expiresIn,jdbcType=INTEGER}
     </if>
     <if test="refreshToken != null">
-       AND refresh_token = #{refreshToken,jdbcType=VARCHAR}
+      AND refresh_token = #{refreshToken,jdbcType=VARCHAR}
     </if>
     <if test="createdDate != null">
       AND created_date = #{createdDate,jdbcType=TIMESTAMP}
@@ -31,7 +35,7 @@
     </if>
   </sql>
   <sql id="Base_Column_List">
-    id, access_token, user_no, expires_in, refresh_token,created_date,modified_date
+    id, access_token, user_no,session_key, expires_in, refresh_token,created_date,modified_date
   </sql>
   <sql id="limitPage">
     <if test="first != null">
@@ -39,15 +43,15 @@
     </if>
   </sql>
   <select id="queryList" parameterType="org.egg.model.VO.WxAccessTokenUserQueryReq" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-     from wx_access_token_user WHERE 1=1 
+    from wx_access_token_user WHERE 1=1
     <include refid="WhereQueryEntity" />
     order by id desc
     <include refid="limitPage" />
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from wx_access_token_user
     where id = #{id,jdbcType=INTEGER}
@@ -56,13 +60,7 @@
     delete from wx_access_token_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyProperty="id" parameterType="org.egg.model.DO.WxAccessTokenUser" useGeneratedKeys="true">
-    insert into wx_access_token_user (id, access_token, user_no, 
-      expires_in, refresh_token,created_date,modified_date)
-    values (#{id,jdbcType=INTEGER}, #{accessToken,jdbcType=VARCHAR}, #{userNo,jdbcType=VARCHAR}, 
-      #{expiresIn,jdbcType=INTEGER}, #{refreshToken,jdbcType=VARCHAR}),
-      #{createdDate,jdbcType=TIMESTAMP}, #{modifiedDate,jdbcType=TIMESTAMP}
-  </insert>
+
   <insert id="insertSelective" keyProperty="id" parameterType="org.egg.model.DO.WxAccessTokenUser" useGeneratedKeys="true">
     insert into wx_access_token_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -74,6 +72,9 @@
       </if>
       <if test="userNo != null">
         user_no,
+      </if>
+      <if test="sessionKey != null">
+        session_key,
       </if>
       <if test="expiresIn != null">
         expires_in,
@@ -98,6 +99,9 @@
       <if test="userNo != null">
         #{userNo,jdbcType=VARCHAR},
       </if>
+      <if test="sessionKey != null">
+        #{sessionKey,jdbcType=VARCHAR},
+      </if>
       <if test="expiresIn != null">
         #{expiresIn,jdbcType=INTEGER},
       </if>
@@ -112,70 +116,9 @@
       </if>
     </trim>
   </insert>
-  <insert id="insertBatch" parameterType="java.util.List">
-    insert into wx_access_token_user (id, access_token, user_no, 
-      expires_in, refresh_token,reated_date, modified_date)
-    values 
-    <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.accessToken,jdbcType=VARCHAR}, #{item.userNo,jdbcType=VARCHAR}, 
-        #{item.expiresIn,jdbcType=INTEGER}, #{item.refreshToken,jdbcType=VARCHAR}),
-      #{item.createdDate,jdbcType=TIMESTAMP}, #{item.modifiedDate,jdbcType=TIMESTAMP}
-    </foreach>
-  </insert>
-  <insert id="insertBatchSelective" parameterType="java.util.List">
-    insert into wx_access_token_user
-    (id, access_token, user_no, expires_in, refresh_token,reated_date, modified_date)
-    values 
-    <foreach collection="list" index="index" item="item" separator=",">
-      <trim prefix="(" suffix=")" suffixOverrides=",">
-        <if test="item.id != null">
-          #{item.id,jdbcType=INTEGER},
-        </if>
-        <if test="item.id == null">
-          NULL,
-        </if>
-        <if test="item.accessToken != null">
-          #{item.accessToken,jdbcType=VARCHAR},
-        </if>
-        <if test="item.accessToken == null">
-          NULL,
-        </if>
-        <if test="item.userNo != null">
-          #{item.userNo,jdbcType=VARCHAR},
-        </if>
-        <if test="item.userNo == null">
-          NULL,
-        </if>
-        <if test="item.expiresIn != null">
-          #{item.expiresIn,jdbcType=INTEGER},
-        </if>
-        <if test="item.expiresIn == null">
-          NULL,
-        </if>
-        <if test="item.refreshToken != null">
-          #{item.refreshToken,jdbcType=VARCHAR},
-        </if>
-        <if test="item.refreshToken == null">
-          NULL,
-        </if>
-        <if test="item.createdDate != null">
-          #{item.createdDate,jdbcType=TIMESTAMP},
-        </if>
-        <if test="item.createdDate == null">
-          NULL,
-        </if>
-        <if test="item.modifiedDate != null">
-          #{item.modifiedDate,jdbcType=TIMESTAMP},
-        </if>
-        <if test="item.modifiedDate == null">
-          NULL,
-        </if>
 
-      </trim>
-    </foreach>
-  </insert>
   <select id="queryCount" parameterType="org.egg.model.VO.WxAccessTokenUserQueryReq" resultType="java.lang.Integer">
-    select count(*) from wx_access_token_user WHERE 1=1 
+    select count(*) from wx_access_token_user WHERE 1=1
     <include refid="WhereQueryEntity" />
   </select>
   <update id="updateByPrimaryKeySelective" parameterType="org.egg.model.DO.WxAccessTokenUser">
@@ -187,6 +130,9 @@
       <if test="userNo != null">
         user_no = #{userNo,jdbcType=VARCHAR},
       </if>
+      <if test="sessionKey != null">
+        session_key = #{sessionKey,jdbcType=VARCHAR},
+      </if>
       <if test="expiresIn != null">
         expires_in = #{expiresIn,jdbcType=INTEGER},
       </if>
@@ -197,7 +143,7 @@
         created_date = #{createdDate,jdbcType=TIMESTAMP},
       </if>
       <!--<if test="modifiedDate != null">-->
-        <!--modified_date = #{modifiedDate,jdbcType=TIMESTAMP},-->
+      <!--modified_date = #{modifiedDate,jdbcType=TIMESTAMP},-->
       <!--</if>-->
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -206,6 +152,7 @@
     update wx_access_token_user
     set access_token = #{accessToken,jdbcType=VARCHAR},
       user_no = #{userNo,jdbcType=VARCHAR},
+      session_key = #{sessionKey,jdbcType=VARCHAR},
       expires_in = #{expiresIn,jdbcType=INTEGER},
       refresh_token = #{refreshToken,jdbcType=VARCHAR},
       created_date = #{createdDate,jdbcType=TIMESTAMP},

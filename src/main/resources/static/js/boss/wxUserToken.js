@@ -20,6 +20,7 @@ $(function () {
         columns: [[
             {field: 'id', title: 'ID', width: 40, align: 'center'},
             {field: 'accessToken', title: 'accessToken', width: 40, align: 'center'},
+            {field: 'sessionKey', title: 'sessionKey', width: 40, align: 'center'},
             {field: 'userNo', title: 'userNo', width: 120, align: 'center'},
             {field: 'expiresIn', title: 'expiresIn（秒）', width: 120, align: 'center'},
             {field: 'refreshToken', title: 'refreshToken', width: 120, align: 'center'},
