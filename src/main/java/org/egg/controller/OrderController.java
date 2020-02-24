@@ -46,7 +46,7 @@ public class OrderController {
     private PublishOrderBiz publishOrderBiz;
     @Autowired
     private AcceptOrderServiceImpl acceptOrderService;
-    @Autowired
+//    @Autowired
     private OrderFacade orderFacade;
 
     @Value("${black.user.no}")

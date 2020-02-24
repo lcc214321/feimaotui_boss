@@ -135,6 +135,16 @@ public class BossController extends BossBaseController {
     public Map<String, Object> userQueryList(HttpServletRequest request, BossUserQueryReq queryReq) {
         Map<String, Object> resultMap = new HashMap<>();
         try {
+            HttpSession session = request.getSession();
+            Object attribute = session.getAttribute(ConstantsUtil.BOSS_USER_KEY);
+            BossUser attribute1 = (BossUser) attribute;
+            String level = attribute1.getLevel();
+            BossUserLevelEnum bossUserLevelEnum = BossUserLevelEnum.getCodeEnumMap().get(level);
+
+//            经理用户只能看到普通用户
+            if (bossUserLevelEnum == BossUserLevelEnum.LEVEL_TWO) {
+                queryReq.setLevel(BossUserLevelEnum.LEVEL_ONE.getCode());
+            }
             PageResult pageResult = bossUserBiz.queryList(queryReq);
             if (pageResult.isSuccess()) {
                 List<BossUserRes> rows = new ArrayList<>();

@@ -8,18 +8,7 @@
 <div class="main">
     <form id="searchForm" method="post">
         <table>
-            <tr>
-                <td>
-                    收费规则类型:
-                </td>
-                <td>
-                    <select class="easyui-combobox" name="ruleType" >
-                        <option value="" selected="selected">ALL</option>
-                        <option th:each="entry:${ruleTypeMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
-                    </select>
-                </td>
 
-            </tr>
             <tr>
                 <td>
                     收费计算类型:
@@ -70,13 +59,6 @@
         <div style="margin-bottom:10px;">
             <input name="id" readonly="readonly" class="easyui-textbox"  label="id"
                    style="width:100%"/>
-        </div>
-        <div style="margin-bottom:10px">
-            <label>收费规则类型</label>&nbsp;&nbsp;&nbsp;
-            <select class="easyui-combobox" name="ruleType" id="ruleType">
-                <!--<option value="" selected="selected">ALL</option>-->
-                <option th:each="entry:${ruleTypeMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
-            </select>
         </div>
         <div style="margin-bottom:10px">
             <label>收费计算类型</label>&nbsp;&nbsp;&nbsp;

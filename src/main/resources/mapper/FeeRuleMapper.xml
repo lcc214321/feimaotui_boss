@@ -4,7 +4,6 @@
 
   <resultMap id="BaseResultMap" type="org.egg.model.DO.FeeRule">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="rule_type" jdbcType="TINYINT" property="ruleType" />
     <result column="fee_type" jdbcType="TINYINT" property="feeType" />
     <result column="fee_threshold_value" jdbcType="DECIMAL" property="feeThresholdValue" />
     <result column="fee_value" jdbcType="DECIMAL" property="feeValue" />
@@ -13,30 +12,27 @@
     <result column="version" jdbcType="INTEGER" property="version" />
   </resultMap>
   <sql id="WhereQueryEntity">
-    <if test="ruleType != null">
-       AND rule_type = #{ruleType,jdbcType=TINYINT}
-    </if>
     <if test="feeType != null">
-       AND fee_type = #{feeType,jdbcType=TINYINT}
+      AND fee_type = #{feeType,jdbcType=TINYINT}
     </if>
     <if test="feeThresholdValue != null">
-       AND fee_threshold_value = #{feeThresholdValue,jdbcType=DECIMAL}
+      AND fee_threshold_value = #{feeThresholdValue,jdbcType=DECIMAL}
     </if>
     <if test="feeValue != null">
-       AND fee_value = #{feeValue,jdbcType=DECIMAL}
+      AND fee_value = #{feeValue,jdbcType=DECIMAL}
     </if>
     <if test="createdDate != null">
-       AND created_date = #{createdDate,jdbcType=TIMESTAMP}
+      AND created_date = #{createdDate,jdbcType=TIMESTAMP}
     </if>
     <if test="modifiedDate != null">
-       AND modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
+      AND modified_date = #{modifiedDate,jdbcType=TIMESTAMP}
     </if>
     <if test="version != null">
       AND version = #{version,jdbcType=INTEGER}
     </if>
   </sql>
   <sql id="Base_Column_List">
-    id, rule_type, fee_type, fee_threshold_value, fee_value, created_date, modified_date,version
+    id,  fee_type, fee_threshold_value, fee_value, created_date, modified_date,version
   </sql>
   <sql id="limitPage">
     <if test="first != null">
@@ -44,15 +40,15 @@
     </if>
   </sql>
   <select id="queryList" parameterType="org.egg.model.VO.FeeRuleQueryReq" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-     from fee_rule WHERE 1=1 
+    from fee_rule WHERE 1=1
     <include refid="WhereQueryEntity" />
     order by fee_threshold_value ASC
     <include refid="limitPage" />
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from fee_rule
     where id = #{id,jdbcType=INTEGER}
@@ -62,12 +58,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.egg.model.DO.FeeRule">
-    insert into fee_rule (id, rule_type, fee_type, 
-      fee_threshold_value, fee_value, created_date, 
-      modified_date,version)
-    values (#{id,jdbcType=INTEGER}, #{ruleType,jdbcType=TINYINT}, #{feeType,jdbcType=TINYINT}, 
-      #{feeThresholdValue,jdbcType=DECIMAL}, #{feeValue,jdbcType=DECIMAL}, #{createdDate,jdbcType=TIMESTAMP},
-      #{modifiedDate,jdbcType=TIMESTAMP},#{version,jdbcType=INTEGER})
+    insert into fee_rule (id,  fee_type,
+    fee_threshold_value, fee_value, created_date,
+    modified_date,version)
+    values (#{id,jdbcType=INTEGER},  #{feeType,jdbcType=TINYINT},
+    #{feeThresholdValue,jdbcType=DECIMAL}, #{feeValue,jdbcType=DECIMAL}, #{createdDate,jdbcType=TIMESTAMP},
+    #{modifiedDate,jdbcType=TIMESTAMP},#{version,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.egg.model.DO.FeeRule">
     insert into fee_rule
@@ -75,9 +71,7 @@
       <if test="id != null">
         id,
       </if>
-      <if test="ruleType != null">
-        rule_type,
-      </if>
+
       <if test="feeType != null">
         fee_type,
       </if>
@@ -101,9 +95,6 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="ruleType != null">
-        #{ruleType,jdbcType=TINYINT},
-      </if>
       <if test="feeType != null">
         #{feeType,jdbcType=TINYINT},
       </if>
@@ -125,36 +116,30 @@
     </trim>
   </insert>
   <insert id="insertBatch" parameterType="java.util.List">
-    insert into fee_rule (id, rule_type, fee_type, 
-      fee_threshold_value, fee_value, 
-      created_date, modified_date,version
-      )
-    values 
+    insert into fee_rule (id,  fee_type,
+    fee_threshold_value, fee_value,
+    created_date, modified_date,version
+    )
+    values
     <foreach collection="list" index="index" item="item" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.ruleType,jdbcType=TINYINT}, #{item.feeType,jdbcType=TINYINT}, 
-        #{item.feeThresholdValue,jdbcType=DECIMAL}, #{item.feeValue,jdbcType=DECIMAL},
-        #{item.createdDate,jdbcType=TIMESTAMP}, #{item.modifiedDate,jdbcType=TIMESTAMP}
+      (#{item.id,jdbcType=INTEGER}, #{item.feeType,jdbcType=TINYINT},
+      #{item.feeThresholdValue,jdbcType=DECIMAL}, #{item.feeValue,jdbcType=DECIMAL},
+      #{item.createdDate,jdbcType=TIMESTAMP}, #{item.modifiedDate,jdbcType=TIMESTAMP}
       , #{item.version,jdbcType=INTEGER}
-        )
+      )
     </foreach>
   </insert>
   <insert id="insertBatchSelective" parameterType="java.util.List">
     insert into fee_rule
-    (id, rule_type, fee_type, fee_threshold_value, fee_value, created_date, modified_date,version
-      )
-    values 
+    (id, fee_type, fee_threshold_value, fee_value, created_date, modified_date,version
+    )
+    values
     <foreach collection="list" index="index" item="item" separator=",">
       <trim prefix="(" suffix=")" suffixOverrides=",">
         <if test="item.id != null">
           #{item.id,jdbcType=INTEGER},
         </if>
         <if test="item.id == null">
-          NULL,
-        </if>
-        <if test="item.ruleType != null">
-          #{item.ruleType,jdbcType=TINYINT},
-        </if>
-        <if test="item.ruleType == null">
           NULL,
         </if>
         <if test="item.feeType != null">
@@ -197,15 +182,12 @@
     </foreach>
   </insert>
   <select id="queryCount" parameterType="org.egg.model.VO.FeeRuleQueryReq" resultType="java.lang.Integer">
-    select count(*) from fee_rule WHERE 1=1 
+    select count(*) from fee_rule WHERE 1=1
     <include refid="WhereQueryEntity" />
   </select>
   <update id="updateByPrimaryKeySelective" parameterType="org.egg.model.DO.FeeRule">
     update fee_rule
     <set>
-      <if test="ruleType != null">
-        rule_type = #{ruleType,jdbcType=TINYINT},
-      </if>
       <if test="feeType != null">
         fee_type = #{feeType,jdbcType=TINYINT},
       </if>
@@ -219,7 +201,7 @@
         created_date = #{createdDate,jdbcType=TIMESTAMP},
       </if>
       <!--<if test="modifiedDate != null">-->
-        <!--modified_date = #{modifiedDate,jdbcType=TIMESTAMP},-->
+      <!--modified_date = #{modifiedDate,jdbcType=TIMESTAMP},-->
       <!--</if>-->
       <if test="version != null">
         version = #{version,jdbcType=INTEGER},
@@ -229,7 +211,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="org.egg.model.DO.FeeRule">
     update fee_rule
-    set rule_type = #{ruleType,jdbcType=TINYINT},
+    set
       fee_type = #{feeType,jdbcType=TINYINT},
       fee_threshold_value = #{feeThresholdValue,jdbcType=DECIMAL},
       fee_value = #{feeValue,jdbcType=DECIMAL},
