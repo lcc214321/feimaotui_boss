@@ -12,5 +12,5 @@
         </property>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
-    <!--<import resource="consumer.xml"></import>-->
+    <import resource="consumer.xml"></import>
 </beans>
