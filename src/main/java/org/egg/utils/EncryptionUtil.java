@@ -478,22 +478,22 @@ public class EncryptionUtil {
         return result;
     }
 
-    public static void main(String[] args) {
-        try {
-            String cdtmjj = md5("cdtmjj", "UTF-8");
-            System.out.println(cdtmjj);
-//            System.out.println(aesDecrypt("W9Fvepas52G6cNJKs6B45ssuhFq4fm23qgIlbg+Hm+pg6Q+LZrBj/0Nzorx7XVHhKN1OegPUXQaE6Zv/xoBmLQ==", AES_KEY));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+//    public static void main(String[] args) {
 //        try {
-//            HashMap<String, String> stringStringHashMap = new HashMap<>();
-//            stringStringHashMap.put("un", "5201808021454380991281");
-//            String s = generateRequestSign(stringStringHashMap);
-//            System.out.println(s);
+//            String cdtmjj = md5("cdtmjj", "UTF-8");
+//            System.out.println(cdtmjj);
+////            System.out.println(aesDecrypt("W9Fvepas52G6cNJKs6B45ssuhFq4fm23qgIlbg+Hm+pg6Q+LZrBj/0Nzorx7XVHhKN1OegPUXQaE6Zv/xoBmLQ==", AES_KEY));
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-    }
+//
+////        try {
+////            HashMap<String, String> stringStringHashMap = new HashMap<>();
+////            stringStringHashMap.put("un", "5201808021454380991281");
+////            String s = generateRequestSign(stringStringHashMap);
+////            System.out.println(s);
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+//    }
 }
