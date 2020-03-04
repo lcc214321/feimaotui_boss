@@ -21,4 +21,8 @@ public class ActiveTeam implements Serializable {
      * 积分
      */
     private Integer integralTotal;
+    /**
+     * 开奖状态 OFF/ON
+     */
+    private String priceStatus;
 }

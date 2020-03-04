@@ -14,4 +14,5 @@ public class ActivePrice extends RedisMqBase {
     private String name;
     private String type;
     private BigDecimal amount;
+    private String userNo;
 }

@@ -1,8 +1,10 @@
 package org.egg.model.DO;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+@Data
 public class PubOrder {
     private Long id;
 
@@ -17,6 +19,7 @@ public class PubOrder {
     private String kdType;
 
     private String addressGet;
+    private String schName;
 
     private String getLongitude;
 
@@ -213,4 +216,5 @@ public class PubOrder {
     public void setWuliuJson(String wuliuJson) {
         this.wuliuJson = wuliuJson == null ? null : wuliuJson.trim();
     }
+
 }

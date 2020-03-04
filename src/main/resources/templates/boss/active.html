@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="boss/common/common :: commonHeader(~{::title},~{},~{::script})">
+    <title>组队活动管理</title>
+    <script type="text/javascript" th:src="@{/js/boss/activeM.js}"></script>
+</head>
+<body>
+<div class="main">
+    <form id="searchForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    最小积分:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="minIntegralTotal"></input>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    开奖状态:
+                </td>
+                <td>
+                    <input class="easyui-textbox" type="text" name="priceStatus"></input>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="7">
+                </td>
+                <td class="right" style="width: auto" align="right">
+                    <a class="queryBtn l-btn" id="cquery">
+                        <span class="l-btn-text">时间倒叙查询</span>
+                    </a>
+                    <a class="queryBtn l-btn" id="squery">
+                        <span class="l-btn-text">积分倒叙查询</span>
+                    </a>
+                    <a class="resetBtn l-btn">
+                        <span class="l-btn-text">重置</span>
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+<div id="toolbar">
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editDetail()">审核</a>-->
+</div>
+<div>
+    <div class='table-container'>
+        <table id='MGrid'></table>
+    </div>
+</div>
+<script>
+    function dateFormatter(value, row, index) {
+        if (!value) {
+            return value;
+        }
+//        加8小时
+        var dateVal = new Date(new Date(value).getTime());
+        var year = dateVal.getFullYear();
+        var month = dateVal.getMonth() + 1;
+        var date = dateVal.getDate();
+        var hour = dateVal.getHours();
+        var minute = dateVal.getMinutes();
+        var second = dateVal.getSeconds();
+
+        year = year < 10 ? '0' + year : year;
+        month = month < 10 ? '0' + month : month;
+        date = date < 10 ? '0' + date : date;
+        hour = hour < 10 ? '0' + hour : hour;
+        minute = minute < 10 ? '0' + minute : minute;
+        second = second < 10 ? '0' + second : second;
+        // commonTime = dateVal.toString();
+        commonTime = year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+        return commonTime;
+    }
+</script>
+
+</body>
+</html>

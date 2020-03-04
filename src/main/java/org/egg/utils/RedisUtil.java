@@ -5,6 +5,7 @@ import io.lettuce.core.RedisFuture;
 import io.lettuce.core.ScriptOutputType;
 import io.lettuce.core.api.async.RedisScriptingAsyncCommands;
 import lombok.extern.slf4j.Slf4j;
+import org.egg.template.RedisTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -727,7 +728,24 @@ public class RedisUtil {
             log.error("close connection fail.", e2);
         }
     }
-
+    public boolean do4Transaction(RedisTransaction redisTransaction) {
+        redisTemplate.setEnableTransactionSupport(true);
+        redisTemplate.multi();
+        try {
+            redisTransaction.doAction();
+            List<Object> exec = redisTemplate.exec();
+            if (exec != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("do4Transaction e={}", e);
+            redisTemplate.discard();
+        } finally {
+        }
+        return false;
+    }
 
     public void watch(String key) {
         redisTemplate.watch(key);

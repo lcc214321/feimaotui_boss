@@ -3,20 +3,21 @@ package org.egg.biz;
 import lombok.extern.slf4j.Slf4j;
 import org.egg.enums.CommonErrorEnum;
 import org.egg.exception.CommonException;
+import org.egg.model.DTO.ActivePrice;
 import org.egg.model.DTO.ActiveTeam;
+import org.egg.model.DTO.ActiveUser;
 import org.egg.model.VO.ActiveQueryReq;
 import org.egg.response.BaseResult;
 import org.egg.response.PageResult;
 import org.egg.template.BizTemplate;
 import org.egg.template.TemplateCallBack;
-import org.egg.utils.BeanUtil;
-import org.egg.utils.CheckUtil;
-import org.egg.utils.RedisUtil;
+import org.egg.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,15 +33,22 @@ public class ActiveBiz {
     private BizTemplate bizTemplate;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private SnowFlake snowFlake;
     /**
      * 活动 队伍key
      */
     private static final String ACTIVE_TEAM = "ACTIVE_TEAM_";
+    /**
+     * 活动 中奖名单key
+     */
+    public static final String ACTIVE_PRICE = "ACTIVE_PRICE_";
 
     /**
      * 发放奖品
      * 指定队伍方法
-     *todo
+     *
+     *
      * @return
      */
     public BaseResult allocationPrice(String teamNo) {
@@ -70,28 +78,87 @@ public class ActiveBiz {
                     log.error("getTeam e={}", e);
                     throw new CommonException(CommonErrorEnum.SYSTEM_EXCEPTION);
                 }
+                String priceStatus = activeTeam.getPriceStatus();
+//                是否已开奖
+                if ("ON".equals(priceStatus)) {
+                    log.error("已开奖 ");
+                    throw new CommonException(CommonErrorEnum.PARAM_ERROR.getCode(), "已开奖");
+                }
+                int size = activeTeam.getUserList().size();
+//                人数必须大于等于4人 小于等于8人
+                if (size < 4 || size > 8) {
+                    log.warn("人数不满足 size={}", size);
+                    throw new CommonException(CommonErrorEnum.PARAM_ERROR.getCode(), "人数不满足");
+                }
+
                 Integer integralTotal = activeTeam.getIntegralTotal();
+                integralTotal = integralTotal == null ? 0 : integralTotal;
+                List<ActiveUser> userList = activeTeam.getUserList();
                 if (integralTotal < 10) {
                     log.error("队伍积分不足 integralTotal={}", integralTotal);
                     throw new CommonException(CommonErrorEnum.PARAM_ERROR);
-                } else if (integralTotal >= 30) {
-//                    发放2个奖品
                 } else {
-//                    发放1个奖品
+//                    发放1个奖品 ONE
+                    ArrayList<ActivePrice> activePrices = new ArrayList<>();
+                    sendPrice4One(userList, activePrices);
 
+
+                    if (integralTotal >= 30) {
+                        ArrayList<ActivePrice> activePrices2 = new ArrayList<>();
+                        sendPrice4One(userList, activePrices2);
+                        activePrices.addAll(activePrices2);
+                    }
+                    redisUtil.do4Transaction(() -> {
+                        for (ActivePrice activePrice : activePrices) {
+                            String key2 = ACTIVE_PRICE + activePrice.getUserNo();
+                            redisUtil.lSet(key2, activePrice);
+                        }
+//                        已开奖
+                        redisUtil.hset(key, "priceStatus", "ON");
+                    });
                 }
-
-//        type:ONE 1.5元 队伍内随机分 ；TWO:均分1.21元 现金红包
-
-                //    //                1.查询队伍人数 随机分配金额
-//    ActiveOpenId openInfo = redisService.getOpenInfo(userNo);
-//    ActiveTeam team = redisService.getTeam(openInfo.getTeamNo());
-//    int size = team.getUserList().size();
-//    List<BigDecimal> bigDecimals = CommonUtil.randomRedPackage(new BigDecimal("1.5"), size);
             }
         });
         return builder;
     }
+
+    /**
+     * 发放ONE类奖品
+     * 1.5元 队伍内随机分
+     */
+    private void sendPrice4One(List<ActiveUser> userList, List<ActivePrice> activePrices) {
+
+        List<BigDecimal> bigDecimals = CommonUtil.randomRedPackage(new BigDecimal("1.5"), userList.size());
+        for (int i = 0; i < userList.size(); i++) {
+            ActivePrice activePrice = new ActivePrice();
+            activePrice.setName("10分奖励红包");
+            activePrice.setType("ONE");
+            activePrice.setMsgNo(snowFlake.nextId() + "");
+            activePrice.setAmount(bigDecimals.get(i));
+            activePrice.setUserNo(userList.get(i).getUserNo());
+            activePrices.add(activePrice);
+        }
+    }
+
+    /**
+     * 发放TWO类奖品
+     * 均分1.21元
+     *
+     * @param userList
+     * @param activePrices
+     */
+    private void sendPrice4Two(List<ActiveUser> userList, List<ActivePrice> activePrices) {
+        for (int i = 0; i < userList.size(); i++) {
+            ActivePrice activePrice = new ActivePrice();
+            activePrice.setName("30分奖励红包");
+            activePrice.setType("TWO");
+            activePrice.setMsgNo(snowFlake.nextId() + "");
+            activePrice.setAmount(new BigDecimal("1.21"));
+            activePrice.setUserNo(userList.get(i).getUserNo());
+            activePrices.add(activePrice);
+        }
+    }
+
 
     /**
      * 查询数据
@@ -141,6 +208,13 @@ public class ActiveBiz {
 //                筛选
                 if (activeQueryReq.getMinIntegralTotal() != null) {
                     List<ActiveTeam> collect = activeTeams.stream().filter(x -> x.getIntegralTotal() > activeQueryReq.getMinIntegralTotal())
+                            .collect(Collectors.toList());
+                    result.setData(collect);
+                    result.setTotal(collect.size());
+                }
+                if (activeQueryReq.getPriceStatus() != null) {
+                    List<ActiveTeam> data = result.getData();
+                    List<ActiveTeam> collect = data.stream().filter(x -> activeQueryReq.getPriceStatus().equals(x.getPriceStatus()))
                             .collect(Collectors.toList());
                     result.setData(collect);
                     result.setTotal(collect.size());

@@ -12,6 +12,10 @@ public class ActiveQueryReq {
     private Integer minIntegralTotal;
     private String orderByColumn;
     /**
+     * 开奖状态 OFF/ON
+     */
+    private String priceStatus;
+    /**
      * 每页数
      */
     private Integer pageNum;
@@ -62,5 +66,13 @@ public class ActiveQueryReq {
 
     public void setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
+    }
+
+    public String getPriceStatus() {
+        return priceStatus;
+    }
+
+    public void setPriceStatus(String priceStatus) {
+        this.priceStatus = priceStatus;
     }
 }

@@ -45,8 +45,8 @@ public class BossActiveController {
      */
     @RequestMapping("/allocationPrice")
     @ResponseBody
-    public BaseResult allocationPrice() {
-        return null;
+    public BaseResult allocationPrice(String teamNo) {
+        return activeBiz.allocationPrice(teamNo);
     }
     /**
      * 寝室组队数据集合查询
