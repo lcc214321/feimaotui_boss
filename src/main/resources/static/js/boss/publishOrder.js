@@ -39,6 +39,10 @@ $(function () {
             {field: 'cancelReason', title: '取消原因', width: 120, align: 'center'},
             {field: 'wuliuNo', title: '物流单号', width: 120, align: 'center'},
             {field: 'wuliuJson', title: '物流详情', width: 120, align: 'center'},
+            {field: 'getLongitude', title: '取货经度', width: 120, align: 'center'},
+            {field: 'getLatitude', title: '取货纬度', width: 120, align: 'center'},
+            {field: 'serLongitude', title: '送货经度', width: 120, align: 'center'},
+            {field: 'serLatitude', title: '送货纬度', width: 120, align: 'center'},
             {field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
                     if (!value) {

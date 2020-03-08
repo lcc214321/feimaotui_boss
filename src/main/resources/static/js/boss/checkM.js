@@ -69,6 +69,9 @@ $(function () {
             {
                 field: 'operation', title: 'Operation', width: 100, align: 'center',
                 formatter: function (value, row, index) {
+                    if(row.status=='ADMIN_CLOSE'){
+                        return '';
+                    }
                     var op = "<a herf='javacript:;' onclick='closeAdmin(" + '"' + row.acceptOrderNo + '"' + ")' style='color: blue;cursor:pointer;'>手动关闭</a>&nbsp";
                     return op;
                 }
