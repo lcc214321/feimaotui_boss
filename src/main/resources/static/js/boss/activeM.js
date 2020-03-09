@@ -17,7 +17,7 @@ $(function () {
         },
         singleSelect: true,
         columns: [[
-            {field: 'id', title: 'ID', width: 40, align: 'center'},
+            // {field: 'id', title: 'ID', width: 40, align: 'center'},
             {field: 'teamNo', title: '队伍编号', width: 120, align: 'center'},
             {field: 'teamName', title: '队伍名称', width: 120, align: 'center'},
             {field: 'integralTotal', title: '总积分', width: 120, align: 'center'},
@@ -31,13 +31,14 @@ $(function () {
                 }
             },
             {
-                title: '操作', width: 240, align: 'center',
-                formatter: function (value) {
+                field:'operation', title: '操作', width: 240, align: 'center',
+                formatter: function (value, row, index) {
                     var html='';
-                    var size=value.userList.size()
-                    if (size>=4&&size<=8&&value.integralTotal>=10){
-                     html = '<a onclick="sendPrice('+value.teamNo+')">发奖</a>';
+                    var size=row.userList.length
+                    if (size>=4&&size<=8&&row.integralTotal>=10&&row.priceStatus!='ON'){
+                     html = '<a style="color:orange;" onclick="sendPrice('+row.teamNo+')">发奖</a>';
                     }
+                        return html;
                 }
             }
         ]],
@@ -53,6 +54,7 @@ $(function () {
         checkOnSelect: true,
         selectOnCheck: false
     });
+
 
 
     $("#cquery").click(function () {

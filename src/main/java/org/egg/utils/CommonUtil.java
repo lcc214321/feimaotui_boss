@@ -41,7 +41,7 @@ public class CommonUtil {
 
     /**
      * 随机分配红包
-     *
+     *最低0.01元
      * @param total
      * @param userTotal
      * @return
@@ -51,6 +51,9 @@ public class CommonUtil {
         ArrayList<BigDecimal> bigDecimals = new ArrayList<>();
         for (int i = 0; i < userTotal - 1; i++) {
             BigDecimal amount = randomAmount(total);
+            if (amount.compareTo(new BigDecimal("0.01")) == -1) {
+                amount = new BigDecimal("0.01");
+            }
             bigDecimals.add(amount);
             total = total.subtract(amount);
         }

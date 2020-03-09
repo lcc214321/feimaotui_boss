@@ -28,7 +28,7 @@
                     订单状态:
                 </td>
                 <td>
-                    <select class="easyui-combobox" name="orderStatus" id="orderStatus">
+                    <select class="easyui-combobox" name="status" id="status">
                         <option value="" selected="selected">ALL</option>
                         <option th:each="entry:${orderStatusMap.entrySet()}" th:value="${entry.getKey()}"><p
                                 th:text="${entry.getValue()}"/></option>

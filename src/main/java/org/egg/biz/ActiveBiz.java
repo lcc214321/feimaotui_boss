@@ -43,6 +43,10 @@ public class ActiveBiz {
      * 活动 中奖名单key
      */
     public static final String ACTIVE_PRICE = "ACTIVE_PRICE_";
+    /**
+     * 活动key
+     */
+    private static final String ACTIVE = "ACTIVE_";
 
     /**
      * 发放奖品
@@ -105,13 +109,16 @@ public class ActiveBiz {
 
                     if (integralTotal >= 30) {
                         ArrayList<ActivePrice> activePrices2 = new ArrayList<>();
-                        sendPrice4One(userList, activePrices2);
+                        sendPrice4Two(userList, activePrices2);
                         activePrices.addAll(activePrices2);
                     }
+                    String key3 = ACTIVE + "001";
+                    Date endTime = (Date)redisUtil.hget(key3, "endTime");
+                    long l = endTime.getTime()- System.currentTimeMillis();
                     redisUtil.do4Transaction(() -> {
                         for (ActivePrice activePrice : activePrices) {
                             String key2 = ACTIVE_PRICE + activePrice.getUserNo();
-                            redisUtil.lSet(key2, activePrice);
+                            redisUtil.lSet(key2, activePrice,l/1000);
                         }
 //                        已开奖
                         redisUtil.hset(key, "priceStatus", "ON");
@@ -182,7 +189,7 @@ public class ActiveBiz {
             @Override
             public void doAction() {
                 ArrayList<ActiveTeam> activeTeams = new ArrayList<>();
-                Set keys = redisUtil.keys(ACTIVE_TEAM);
+                Set keys = redisUtil.keys(ACTIVE_TEAM+"*");
                 if (CollectionUtils.isEmpty(keys)) {
                     return;
                 }
