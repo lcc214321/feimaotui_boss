@@ -72,7 +72,7 @@ $(function () {
                     if(row.status=='ADMIN_CLOSE'){
                         return '';
                     }
-                    var op = "<a herf='javacript:;' onclick='closeAdmin(" + '"' + row.acceptOrderNo + '"' + ")' style='color: blue;cursor:pointer;'>手动关闭</a>&nbsp";
+                    var op = "<a herf='javacript:;' onclick='closeAdmin('" + row.orderNo  + "')' style='color: blue;cursor:pointer;'>手动关闭</a>&nbsp";
                     return op;
                 }
             }
