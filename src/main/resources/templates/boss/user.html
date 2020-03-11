@@ -82,6 +82,13 @@
                 <option th:each="entry:${userStatusMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
             </select>
         </div>
+        <div style="margin-bottom:10px">
+            <label>实名状态</label>&nbsp;&nbsp;&nbsp;
+            <select class="easyui-combobox" name="realStatus" >
+                <option value="" selected="selected">ALL</option>
+                <option th:each="entry:${approveStatusMap.entrySet()}" th:value="${entry.getKey()}"><p th:text="${entry.getValue()}"/></option>
+            </select>
+        </div>
         <div id="dlg-buttons">
             <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="save()"
                style="width:90px">Save</a>

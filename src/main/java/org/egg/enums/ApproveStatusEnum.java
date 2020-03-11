@@ -15,11 +15,13 @@ public enum ApproveStatusEnum {
     ;
     private static final Map<String, ApproveStatusEnum> codeMap = new HashMap<>();
     private static final Map<Integer, String> indexDescMap = new HashMap<>();
+    private static final Map<String, String> codeDescMap = new HashMap<>();
 
     static {
         for (ApproveStatusEnum items : ApproveStatusEnum.values()) {
             codeMap.put(items.getCode(), items);
             indexDescMap.put(items.getIndex(), items.getDesc());
+            codeDescMap.put(items.getCode(), items.getDesc());
         }
     }
 
@@ -57,5 +59,9 @@ public enum ApproveStatusEnum {
 
     public static Map<String, ApproveStatusEnum> getCodeMap() {
         return codeMap;
+    }
+
+    public static Map<String, String> getCodeDescMap() {
+        return codeDescMap;
     }
 }

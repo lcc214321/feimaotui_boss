@@ -3,6 +3,7 @@ package org.egg.controller;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections.CollectionUtils;
 import org.egg.biz.UserBiz;
+import org.egg.enums.ApproveStatusEnum;
 import org.egg.enums.CreditScoreOperatTypeEnum;
 import org.egg.enums.UserStatusEnum;
 import org.egg.model.DO.User;
@@ -57,6 +58,7 @@ public class BossUserController {
     @RequestMapping("/showUser")
     public String showUser(Model model) {
         model.addAttribute("userStatusMap", UserStatusEnum.getIndexDescMap());
+        model.addAttribute("approveStatusMap", ApproveStatusEnum.getCodeDescMap());
         return "boss/user";
     }
 
