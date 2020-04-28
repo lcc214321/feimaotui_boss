@@ -20,6 +20,7 @@ $(function () {
             {field: 'id', title: 'ID', width: 40, align: 'center'},
             {field: 'orderNo', title: '发布单号', width: 120, align: 'center'},
             {field: 'userNo', title: '会员编号', width: 120, align: 'center'},
+            {field: 'schName', title: '学校', width: 120, align: 'center'},
             {field: 'weigth', title: '重量', width: 120, align: 'center'},
             {field: 'price', title: '金额', width: 120, align: 'center'},
             {field: 'kdType', title: '快递类型', width: 120, align: 'center'},
