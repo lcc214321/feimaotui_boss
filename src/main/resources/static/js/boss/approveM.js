@@ -27,6 +27,7 @@ $(function () {
             {field: 'stuSchName', title: '学校名称', width: 120, align: 'center'},
             {field: 'stuAddressL', title: '住址（楼号）', width: 120, align: 'center'},
             {field: 'stuAddressQ', title: '详细住址', width: 120, align: 'center'},
+            {field: 'remark', title: '备注', width: 240, align: 'center'},
             {
                 field: 'createdDate', title: '创建时间', width: 240, align: 'center',
                 formatter: function (value) {
